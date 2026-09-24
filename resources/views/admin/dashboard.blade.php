@@ -471,7 +471,7 @@
                 </article>
 
                 <article class="stat">
-                    <div class="stat-label">Health workers</div>
+                    <div class="stat-label">Barangay Accounts</div>
                     <div class="stat-value">{{ $totalWorkers }}</div>
                     <div class="stat-note">Registered accounts</div>
                 </article>
@@ -520,7 +520,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4">No health-worker accounts found.</td>
+                                        <td colspan="4">No accounts found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
