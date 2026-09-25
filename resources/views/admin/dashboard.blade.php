@@ -553,7 +553,7 @@
             </section>
         </main>
         <div class="mobile-pc-notice">
-            <strong>📱 Mobile View</strong>
+            <strong>&#9432; NOTICE</strong>
                 <span>
                 You are viewing the TABACARE Dashboard Overview.
                 For full access to the system and management features,
