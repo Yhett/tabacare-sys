@@ -319,75 +319,88 @@
             font: 700 10px Arial, sans-serif;
             text-transform: uppercase;
         }
+/* MOBILE EXCLUSIVE DISPLAY NOTICE & SWITCHER */
+.mobile-pc-notice {
+    display: none;
+    background: #e6f6f3;
+    border: 1px solid #a7ddd5;
+    color: #155e59;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font: 14px/1.5 Arial, sans-serif;
+    margin-bottom: 20px;
+}
 
-        @media (max-width: 950px) {
+.mobile-pc-notice strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+}
 
-            .admin-shell {
-                grid-template-columns: 1fr;
-            }
+.mobile-pc-notice span {
+    display: block;
+}
 
-            .admin-sidebar {
-                position: relative;
-                height: auto;
-                min-height: auto;
-                padding: 14px 18px;
-            }
+/* MOBILE VIEW */
+@media (max-width: 850px) {
 
-            .admin-brand {
-                padding: 0 0 14px;
-                border: 0;
-            }
+    .admin-shell {
+        grid-template-columns: 1fr;
+    }
 
-            .admin-label,
-            .admin-footer {
-                display: none;
-            }
+    /* Hide sidebar */
+    .admin-sidebar {
+        display: none;
+    }
 
-            .admin-nav {
-                display: flex;
-                overflow-x: auto;
-            }
+    /* Show PC/Laptop message */
+    .mobile-pc-notice {
+        display: block;
+    }
 
-            .admin-nav a {
-                white-space: nowrap;
-            }
+    /* Hide full system sections */
+    .content-grid,
+    #reports {
+        display: none !important;
+    }
 
-            .stat-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
+    /* Keep only dashboard overview/statistics */
+    .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
 
-        @media (max-width: 620px) {
+    .stat {
+        padding: 16px;
+    }
 
-            .admin-main {
-                padding: 22px 15px 35px;
-            }
+    .stat-value {
+        font-size: 25px;
+    }
 
-            .topbar {
-                display: block;
-            }
+    .topbar {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
 
-            .profile {
-                margin-top: 17px;
-            }
+    .profile {
+        align-self: flex-start;
+    }
 
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
+    .admin-main {
+        padding: 20px 16px 35px;
+    }
 
-            .stat-grid {
-                gap: 9px;
-            }
+    h1 {
+        font-size: 30px;
+    }
 
-            .stat {
-                padding: 15px;
-            }
-
-            .stat-value {
-                font-size: 28px;
-            }
-
-        }
+    .intro {
+        font-size: 14px;
+    }
+}
     </style>
 </head>
 
@@ -485,7 +498,7 @@
                 <article class="stat">
                     <div class="stat-label">Barangays covered</div>
                     <div class="stat-value">{{ $barangayCount }}</div>
-                    <div class="stat-note">With worker accounts</div>
+                    <div class="stat-note">Active accounts</div>
                 </article>
             </section>
 
@@ -539,6 +552,14 @@
                 <p class="intro"> {{ $totalPatients }} patient records are currently available across {{ $barangayCount }} barangay areas.</p>
             </section>
         </main>
+        <div class="mobile-pc-notice">
+            <strong>📱 Mobile View</strong>
+                <span>
+                You are viewing the TABACARE Dashboard Overview.
+                For full access to the system and management features,
+                please use a PC or laptop.
+                </span>
+        </div>
     </div>
 
 

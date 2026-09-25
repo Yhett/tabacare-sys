@@ -73,8 +73,94 @@
         th { padding: 0 10px 12px; color: var(--muted); text-align: left; font: 10px Arial, sans-serif; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
         td { padding: 14px 10px; border-top: 1px solid #edf2ef; } td:last-child, th:last-child { text-align: right; }
         .status { display: inline-block; padding: 5px 8px; border-radius: 3px; background: #e4f3eb; color: #197050; font: 10px Arial, sans-serif; font-weight: 700; text-transform: uppercase; }
-        @media (max-width: 920px) { .shell { grid-template-columns: 1fr; } .sidebar { padding: 14px 18px; } .brand { padding: 0 0 14px; } .nav-label, .sidebar-footer { display: none; } .nav { display: flex; gap: 4px; overflow-x: auto; } .nav a { white-space: nowrap; } .main { padding-top: 25px; } .stat-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 620px) { .topbar { display: block; } .profile { margin-top: 18px; } .filters { display: block; } .filter { margin-bottom: 12px; } .reset { padding-left: 0; } .content-grid { grid-template-columns: 1fr; } .stat-grid { gap: 9px; } .stat { padding: 15px; } .stat-value { font-size: 28px; } .chart { gap: 7px; } }
+        .mobile-pc-notice {
+    display: none;
+    background: #e6f6f3;
+    border: 1px solid #a7ddd5;
+    color: #155e59;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font: 14px/1.5 Arial, sans-serif;
+    margin-bottom: 20px;
+}
+
+.mobile-pc-notice strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+
+.mobile-pc-notice span {
+    display: block;
+}
+/* MOBILE VIEW */
+@media (max-width: 850px) {
+
+    /* Hide sidebar */
+    .sidebar {
+        display: none;
+    }
+
+    .shell {
+        grid-template-columns: 1fr;
+    }
+
+    /* Show mobile notice */
+    .mobile-pc-notice {
+        display: block;
+    }
+
+    .main {
+        padding: 20px 16px 36px;
+    }
+
+    /* Dashboard header */
+    .topbar {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 16px;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    .profile {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 14px;
+        width: 100%;
+    }
+
+    /* Keep dashboard overview */
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .stat {
+        padding: 14px;
+    }
+
+    .stat-value {
+        font-size: 26px;
+        margin: 8px 0 4px;
+    }
+
+    /* Hide filters and detailed system sections */
+    .filters,
+    #statistics,
+    #reports,
+    #patients {
+        display: none !important;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .intro {
+        font-size: 14px;
+    }
+}
     </style>
 </head>
 <body>
@@ -123,6 +209,14 @@
                 <table><thead><tr><th>Patient reference</th><th>Condition</th><th>Date of onset</th><th>Record added</th></tr></thead><tbody>@forelse($recentPatients as $patient)<tr><td>{{ $patient->patient_code }}</td><td>{{ $patient->disease }}</td><td>{{ $patient->date_onset?->format('d M Y') ?? '—' }}</td><td>{{ $patient->created_at?->format('d M Y') ?? '—' }}</td></tr>@empty<tr><td colspan="4">No patient records in {{ $barangay }} yet.</td></tr>@endforelse</tbody></table>
             </section>
         </main>
+        <div class="mobile-pc-notice">
+            <strong>📱 Mobile View</strong>
+            <span>
+            You are viewing the TABACARE Dashboard Overview.
+            For full access to the system and management features,
+            please use a PC or laptop.
+            </span>
+        </div>
     </div>
 
     <script>
