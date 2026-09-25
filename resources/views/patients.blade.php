@@ -68,6 +68,47 @@
         .assigned { padding: 10px 12px; border-radius: 4px; background: #effaf3; color: #19683d; font: 12px Arial, sans-serif; }
         @media (max-width: 700px) { .page-head, .toolbar, .table-footer { display: block; } .user-chip { margin-top: 16px; } .field, .toolbar .button { width: 100%; margin-top: 10px; } .table-head { align-items: flex-start; } }
         @media (max-width: 700px) { .summary-grid { grid-template-columns: 1fr; } }
+        .export-notice {
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 18px;
+    border: 1px solid #bde5cd;
+    border-radius: 6px;
+    background: #effaf3;
+    color: #19683d;
+    box-shadow: 0 8px 25px rgba(24,48,59,.12);
+    font: 13px Arial, sans-serif;
+    font-weight: 600;
+    animation: slideIn .3s ease;
+}
+
+.export-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #19683d;
+    color: white;
+    font-weight: bold;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
     </style>
 </head>
 <body>
@@ -95,7 +136,14 @@
             <div class="field"><label for="filter_disease">Filter disease</label><select id="filter_disease" name="filter_disease"><option value="">All diseases</option>@foreach($diseases as $disease)<option value="{{ $disease }}" @selected($filterDisease === $disease)>{{ $disease }}</option>@endforeach</select></div>
             <button class="button" type="submit">Search</button>
             @if($search || $filterDisease)<a class="button secondary" href="{{ route('patients.index') }}">Clear</a>@endif
-            <button class="button secondary" type="submit" formmethod="POST" formaction="{{ route('patients.export') }}">Export Excel</button>
+            <button
+                class="button secondary"
+                type="submit"
+                formmethod="POST"
+                formaction="{{ route('patients.export') }}"
+                onclick="exportExcel(event, this)">
+                Export Excel
+            </button>
             <button class="button coral" type="button" onclick="openPatientModal()">+ Add patient</button>
         </form>
 
@@ -135,6 +183,75 @@
         function openPatientModal() { form.reset(); form.action = patientsStoreUrl; methodField.value = ''; document.getElementById('modalTitle').textContent = 'Add patient'; document.getElementById('submitButton').textContent = 'Add patient'; modal.showModal(); }
         function editPatient(patient) { form.action = '/patients/' + patient.id; methodField.value = 'PUT'; document.getElementById('patient_code').value = patient.patient_code || ''; document.getElementById('age').value = patient.age ?? ''; form.querySelector('[name="age_unit"]').value = patient.age_unit || 'years'; document.getElementById('gender').value = patient.gender || ''; document.getElementById('disease').value = patient.disease || ''; document.getElementById('date_onset').value = patient.date_onset ? patient.date_onset.substring(0, 10) : ''; document.getElementById('modalTitle').textContent = 'Edit patient'; document.getElementById('submitButton').textContent = 'Save changes'; modal.showModal(); }
         function closePatientModal() { modal.close(); }
+
+        function exportExcel(event, button) {
+    event.preventDefault();
+
+    const form = button.closest('form');
+
+    button.disabled = true;
+    button.innerHTML = 'Exporting...';
+
+    const formData = new FormData(form);
+
+    fetch(button.formAction, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Export failed');
+        }
+
+        return response.blob();
+    })
+    .then(blob => {
+
+        // Download the Excel file
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+
+        a.href = url;
+        a.download = 'TABACARE_Patient_Records.xlsx';
+
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+        // Success message
+        showExportNotice();
+    })
+    .catch(error => {
+        alert('Unable to export the file.');
+        console.error(error);
+    })
+    .finally(() => {
+        button.disabled = false;
+        button.innerHTML = 'Export Excel';
+    });
+}
+
+        function showExportNotice() {
+            const notice = document.createElement('div');
+
+                notice.className = 'export-notice';
+
+                notice.innerHTML = `
+                <span class="export-icon">✓</span>
+                <span>File exported successfully.</span>
+            `;
+
+            document.body.appendChild(notice);
+
+            setTimeout(function () {
+                notice.remove();
+            }, 3000);
+        }
     </script>
 @include('partials.submit-guard')
 </body>
