@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminPatientController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('index');
@@ -40,3 +42,7 @@ Route::get('/admin/statistics', [AdminController::class, 'statistics'])->name('a
 Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
 Route::get('/admin/reports/{report}/attachment', [AdminController::class, 'downloadAttachment'])->name('admin.reports.attachment');
 Route::get('/admin/reports/{report}/download', [AdminController::class, 'downloadReport'])->name('admin.reports.download');
+
+
+Route::put('/admin/patients/{patient}',[AdminPatientController::class,'update'])->name('admin.patients.update');
+Route::delete('/admin/patients/{patient}',[AdminPatientController::class,'destroy'])->name('admin.patients.destroy');

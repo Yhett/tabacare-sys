@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset = "UTF-8">
+    <meta name    = "viewport" content="width=device-width, initial-scale=1">
     <title>Patient Review | TABACARE</title>
     <style>
         .sidebar { position: sticky; top: 0; height: 100vh; }
@@ -34,55 +34,61 @@
         .note { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 20px; border-top:1px solid var(--line); color:var(--muted); font:12px Arial,sans-serif; }
         dialog { width:min(500px,calc(100% - 30px)); padding:0; border:0; border-radius:7px; box-shadow:0 25px 80px rgba(24,48,59,.25); } dialog::backdrop { background:rgba(24,48,59,.34); } .modal-head { display:flex; justify-content:space-between; padding:22px 24px 15px; border-bottom:1px solid var(--line); } .close { border:0; background:transparent; color:var(--muted); cursor:pointer; font-size:24px; } .modal-body { display:grid; gap:13px; padding:22px 24px 24px; } .modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:5px; } input { min-height:40px; padding:8px 10px; border:1px solid var(--line); border-radius:4px; }
         @media(max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{min-height:auto;padding:14px 18px;} .brand{padding:0 0 14px;border:0;} .label,.side-footer{display:none;} .nav{display:flex;overflow-x:auto;} .nav a{white-space:nowrap;} } @media(max-width:620px){ .topbar,.filters{display:block;} .profile{margin-top:17px;} .field,.filters .button{width:100%;margin-top:10px;} }
-        .mark img{display:block;width:100%;height:100%;padding:4px;object-fit:contain}
+        .mark img{width:38px;height:38px;object-fit:contain;border-radius:10px;background:#fff}
+        .actions{display:flex;align-items:center;gap:6px}
+.action-btn{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:6px 10px;border:0;border-radius:4px;text-decoration:none;cursor:pointer;font:700 11px Arial,sans-serif}
+.edit-btn{background:#e6f6f3;color:#0f766e}
+.edit-btn:hover{background:#d2eee9}
+.delete-btn{background:#fff0ee;color:#b13d31}
+.delete-btn:hover{background:#fbe0dc}
+.actions form{margin:0}
     </style>
-    @include('partials.fonts')
 </head>
 <body>
-    <div class="shell">
-        <aside class="sidebar"><div class="brand"><div class="mark"><img src="{{ asset('images/tabacare-logo.png') }}" alt="TABACARE logo"></div><div><strong>TABACARE</strong><small>Administration</small></div></div><div class="label">Management</div><nav class="nav"><a href="{{ route('admin.dashboard') }}"><span class="nav-icon">&#9632;</span> Dashboard</a><a href="{{ route('admin.accounts') }}"><span class="nav-icon">&#9673;</span> Barangay accounts</a><a href="{{ route('admin.reports') }}"><span class="nav-icon">&#9776;</span> Barangay reports</a><a href="{{ route('admin.statistics') }}"><span class="nav-icon">&#9646;</span> Disease statistics</a><a class="active" href="{{ route('admin.patients') }}"><span class="nav-icon">&#9998;</span> List of patients</a></nav><div class="side-footer">Administrator access<br><strong>{{ $adminName }}</strong><a href="{{ route('admin.admin-accounts.index') }}" style="display:block;margin-top:12px;padding:9px 10px;border-radius:6px;background:rgba(255,255,255,.08);color:#d9e3ea;text-decoration:none;font:600 12px Arial">Admin accounts</a><form method="POST" action="{{ route('logout') }}" style="margin-top:12px">@csrf<button type="submit" style="width:100%;padding:9px;border:1px solid #dcebea;border-radius:6px;background:transparent;color:#aabac5;cursor:pointer;font:600 12px Arial">Log out</button></form></div></aside>
-        <main class="main">
-            <header class="topbar">
+    <div class            = "shell">
+        <aside class      = "sidebar"><div class="brand"><div class="mark"><img src="{{ asset('images/tabacare-logo.png') }}" alt="TABACARE logo"></div><div><strong>TABACARE</strong><small>Administration</small></div></div><div class="label">Management</div><nav class="nav"><a href="{{ route('admin.dashboard') }}"><span class="nav-icon">&#9632;</span> Dashboard</a><a href="{{ route('admin.accounts') }}"><span class="nav-icon">&#9673;</span> Barangay accounts</a><a href="{{ route('admin.reports') }}"><span class="nav-icon">&#9776;</span> Barangay reports</a><a href="{{ route('admin.statistics') }}"><span class="nav-icon">&#9646;</span> Disease statistics</a><a class="active" href="{{ route('admin.patients') }}"><span class="nav-icon">&#9998;</span> List of patients</a></nav><div class="side-footer">Administrator access<br><strong>{{ $adminName }}</strong><a href="{{ route('admin.admin-accounts.index') }}" style="display:block;margin-top:12px;padding:9px 10px;border-radius:6px;background:rgba(255,255,255,.08);color:#d9e3ea;text-decoration:none;font:600 12px Arial">Admin accounts</a><form method="POST" action="{{ route('logout') }}" style="margin-top:12px">@csrf<button type="submit" style="width:100%;padding:9px;border:1px solid #dcebea;border-radius:6px;background:transparent;color:#aabac5;cursor:pointer;font:600 12px Arial">Log out</button></form></div></aside>
+        <main class       = "main">
+            <header class = "topbar">
                 <div>
-                    <div class="eyebrow">Patient review</div>
+                    <div class = "eyebrow">Patient review</div>
                         <h1>Added patients monitoring</h1>
-                        <p class="intro">Health-center records added by administrators.</p>
+                        <p class = "intro">Health-center records added by administrators.</p>
                     </div>
-                    <div class="profile">
-                        <div class="avatar">{{ strtoupper(substr($adminName, 0, 1)) }}
+                    <div class     = "profile">
+                        <div class = "avatar">{{ strtoupper(substr($adminName, 0, 1)) }}
                         </div>{{ $adminName }}
                     </div>
             </header>
             @if(session('success'))
-            <div class="alert success">{{ session('success') }}</div>
+            <div class = "alert success">{{ session('success') }}</div>
             @endif
             @if($errors->any())
-            <div class="alert error">{{ $errors->first() }}</div>
+            <div class = "alert error">{{ $errors->first() }}</div>
             @endif
-            <section class="panel">
-                <div class="panel-head">
+            <section class = "panel">
+                <div class = "panel-head">
                     <h2>Added patients</h2>
                     <div>
-                        <span class="count">{{ $patients->total() }} entries</span> 
-                        <button class="button" type="button" onclick="openPatientModal()">+ Add patient</button>
+                        <span class   = "count">{{ $patients->total() }} entries</span> 
+                        <button class = "button" type="button" onclick="openPatientModal()">+ Add patient</button>
                     </div>
                 </div>
-                <form class="filters" method="GET" action="{{ route('admin.patients') }}">
-                    <div class="field">
-                        <label for="filter_disease">Filter by disease</label>
-                        <select id="filter_disease" name="filter_disease">
-                            <option value="">All diseases</option>
+                <form class               = "filters" method="GET" action="{{ route('admin.patients') }}">
+                    <div class            = "field">
+                        <label for        = "filter_disease">Filter by disease</label>
+                        <select id        = "filter_disease" name="filter_disease">
+                            <option value = "">All diseases</option>
                             @foreach($diseases as $disease)
-                                <option value="{{ $disease }}" @selected($filterDisease === $disease)>{{ $disease }}</option>
+                                <option value = "{{ $disease }}" @selected($filterDisease === $disease)>{{ $disease }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <button class="button" type="submit">Apply filters</button>
+                    <button class = "button" type="submit">Apply filters</button>
                     @if($filterDisease)
-                        <a class="button secondary" href="{{ route('admin.patients') }}">Clear</a>
+                        <a class = "button secondary" href="{{ route('admin.patients') }}">Clear</a>
                     @endif
                 </form>
-                <div class="table-wrap">
+                <div class = "table-wrap">
                     <table>
                         <thead>
                             <tr>
@@ -94,68 +100,80 @@
                                 <th>Barangay</th>
                                 <th>Added by</th>
                                 <th>Date added</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($patients as $patient)
                                 <tr>
-                                    <td><span class="record-code">{{ $patient->patient_code }}</span></td>
-                                    <td>{{ $patient->age !== null ? $patient->age . ' ' . ($patient->age_unit ?? 'years') : '—' }}</td>
-                                    <td><span class="gender-tag">{{ $patient->gender }}</span></td>
-                                    <td><span class="disease-tag">{{ $patient->disease }}</span></td>
-                                    <td>{{ $patient->date_onset?->format('d M Y') }}</td>
-                                    <td>{{ $patient->address }}</td>
-                                    <td>{{ $patient->addedBy?->username ?? 'Unknown' }}</td>
-                                    <td>{{ $patient->created_at?->format('Y-m-d H:i') }}</td>
-                                </tr>
+    <td><span class = "record-code">{{ $patient->patient_code }}</span></td>
+    <td>{{ $patient->age 
+        !== null ? $patient->age . ' ' . ($patient->age_unit ?? 'years') : '—' }}</td>
+    <td><span class = "gender-tag">{{ $patient->gender }}</span></td>
+    <td><span class = "disease-tag">{{ $patient->disease }}</span></td>
+    <td>{{ $patient->date_onset?->format('d M Y') }}</td>
+    <td>{{ $patient->address }}</td>
+    <td>{{ $patient->addedBy?->username ?? 'Unknown' }}</td>
+    <td>{{ $patient->created_at?->format('Y-m-d H:i') }}</td>
+    <td>
+        <div class = "actions">
+            
+            <form method = "POST" action="{{ route('admin.patients.destroy', $patient->id) }}" onsubmit="return confirm('Are you sure you want to delete this patient record?');">
+                @csrf
+                @method('DELETE')
+                <button type = "submit" class="action-btn delete-btn">Delete</button>
+            </form>
+        </div>
+    </td>
+</tr>
                             @empty
                                 <tr>
-                                    <td class="empty" colspan="8">No patients found for the selected filter.</td>
+                                    <td class = "empty" colspan="9">No patients found for the selected filter.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="note">
+                <div class = "note">
                     Showing {{ $patients->firstItem() ?? 0 }} to {{ $patients->lastItem() ?? 0 }} patient record(s).
                     {{ $patients->links() }}
                 </div>
             </section>
         </main>
     </div>
-    <dialog id="patientModal">
-        <div class="modal-head">
+    <dialog id     = "patientModal">
+        <div class = "modal-head">
             <div>
-                <div class="eyebrow">Health-center record</div>
+                <div class = "eyebrow">Health-center record</div>
                 <h2>Add patient</h2>
             </div>
-            <button class="close" type="button" onclick="patientModal.close()">&times;</button>
+            <button class = "close" type="button" onclick="patientModal.close()">&times;</button>
         </div>
-        <form class="modal-body" method="POST" action="{{ route('admin.patients.store') }}">
+        <form class = "modal-body" method="POST" action="{{ route('admin.patients.store') }}">
             @csrf
-            <input name="patient_code" placeholder="Patient code" required>
-            <div style="display:grid;grid-template-columns:1fr 130px;gap:8px"><input name="age" type="number" min="0" max="150" placeholder="Age" required><select name="age_unit" aria-label="Age unit" required><option value="years">Years</option><option value="months">Months</option><option value="days">Days</option></select></div>
-            <select name="gender" required>
-                <option value="">Select gender</option>
+            <input name       = "patient_code" placeholder="Patient code" required>
+            <div style        = "display:grid;grid-template-columns:1fr 130px;gap:8px"><input name="age" type="number" min="0" max="150" placeholder="Age" required><select name="age_unit" aria-label="Age unit" required><option value="years">Years</option><option value="months">Months</option><option value="days">Days</option></select></div>
+            <select name      = "gender" required>
+                <option value = "">Select gender</option>
                 <option>Male</option>
                 <option>Female</option>
             </select>
-            <select name="disease" required>
-                <option value="">Select disease</option>
+            <select name      = "disease" required>
+                <option value = "">Select disease</option>
                 @foreach($diseases as $disease)
                     <option>{{ $disease }}</option>
                 @endforeach
             </select>
-            <input name="date_onset" type="date" required>
-            <select name="address" required>
-                <option value="">Select barangay</option>
+            <input name       = "date_onset" type="date" required>
+            <select name      = "address" required>
+                <option value = "">Select barangay</option>
                 @foreach($barangays as $barangay)
                     <option>{{ $barangay }}</option>
                 @endforeach
             </select>
-            <div class="modal-actions">
-                <button class="button secondary" type="button" onclick="patientModal.close()">Cancel</button>
-                <button class="button" type="submit">Add patient</button>
+            <div class        = "modal-actions">
+                <button class = "button secondary" type="button" onclick="patientModal.close()">Cancel</button>
+                <button class = "button" type="submit">Add patient</button>
             </div>
         </form>
     </dialog>
