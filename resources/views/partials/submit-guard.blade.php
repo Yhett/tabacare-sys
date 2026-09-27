@@ -1,6 +1,7 @@
 <style>
     button[aria-busy="true"], input[type="submit"][aria-busy="true"] { cursor: wait !important; opacity: .72; }
-    button[aria-busy="true"]::after { content: ''; display: inline-block; width: 12px; height: 12px; margin-left: 9px; vertical-align: -2px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: tabacare-submit-spin .7s linear infinite; }
+    button[aria-busy="true"] { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    button[aria-busy="true"]::after { content: ''; flex: 0 0 auto; width: 12px; height: 12px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: tabacare-submit-spin .7s linear infinite; }
     .submit-status { display: block; margin-top: 8px; color: #087f55; font: 12px Arial, sans-serif; }
     @keyframes tabacare-submit-spin { to { transform: rotate(360deg); } }
 </style>
@@ -13,14 +14,33 @@
             return;
         }
 
+        // Only show loading on the button that was actually clicked,
+        // not on every button inside the same form.
+        let submitter = event.submitter || document.activeElement;
+        if (!(submitter instanceof HTMLElement) || !form.contains(submitter)) {
+            submitter = form.querySelector('button[type="submit"], button:not([type]), input[type="submit"]');
+        }
+        const busyButtons = submitter ? [submitter] : [];
+        const markBusy = function () {
+            busyButtons.forEach(function (button) {
+                button.disabled = true;
+                button.setAttribute('aria-busy', 'true');
+                button.classList.add('is-loading');
+            });
+        };
+        const clearBusy = function () {
+            form.dataset.submitting = 'false';
+            busyButtons.forEach(function (button) {
+                button.disabled = false;
+                button.removeAttribute('aria-busy');
+                button.classList.remove('is-loading');
+            });
+        };
+
         if (form.method.toUpperCase() === 'POST' && new URL(form.action, window.location.href).pathname.endsWith('/reports/download')) {
             event.preventDefault();
             form.dataset.submitting = 'true';
-            const buttons = Array.from(form.querySelectorAll('button[type="submit"], button:not([type]), input[type="submit"]'));
-            buttons.forEach(function (button) {
-                button.disabled = true;
-                button.setAttribute('aria-busy', 'true');
-            });
+            markBusy();
 
             let status = form.querySelector('.submit-status');
             if (!status) {
@@ -32,10 +52,23 @@
             }
             status.textContent = 'Preparing your download…';
 
-            fetch(form.action, { method: 'POST', body: new FormData(form), credentials: 'same-origin' })
+            var token = form.querySelector('input[name="_token"]');
+            var params = new URLSearchParams(new FormData(form)).toString();
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token ? token.value : ''
+                },
+                body: params,
+                credentials: 'same-origin'
+            })
                 .then(function (response) {
+                    if (response.status === 419) throw new Error('Session expired (419). Refresh and sign in again.');
+                    if (!response.ok) throw new Error('Server returned HTTP ' + response.status + '.');
                     const disposition = response.headers.get('Content-Disposition') || '';
-                    if (!response.ok || !/attachment/i.test(disposition)) throw new Error('Download response was not an attachment.');
                     const match = disposition.match(/filename\*?=(?:UTF-8''|\")?([^\";]+)/i);
                     return response.blob().then(function (blob) {
                         return { blob: blob, filename: match ? decodeURIComponent(match[1].replace(/\"/g, '').trim()) : 'disease-report.xls' };
@@ -56,19 +89,48 @@
                     status.textContent = 'Download failed. Please try again.';
                 })
                 .finally(function () {
-                    form.dataset.submitting = 'false';
-                    buttons.forEach(function (button) {
-                        button.disabled = false;
-                        button.removeAttribute('aria-busy');
-                    });
+                    clearBusy();
                 });
             return;
         }
 
+        // Export forms that download into a hidden iframe stay on the page:
+        // spin only the clicked Export button, then reset it once the
+        // iframe finishes (with a safety timeout so it never sticks).
+        if (form.target === 'exportFrame' || (submitter && submitter.getAttribute('formtarget') === 'exportFrame')) {
+            form.dataset.submitting = 'true';
+            markBusy();
+
+            const resetTimer = window.setTimeout(function () {
+                clearBusy();
+            }, 2500);
+
+            const exportFrame = document.getElementById('exportFrame');
+            if (exportFrame) {
+                exportFrame.addEventListener('load', function onExportLoad() {
+                    window.clearTimeout(resetTimer);
+                    clearBusy();
+                    exportFrame.removeEventListener('load', onExportLoad);
+                });
+            } else {
+                window.setTimeout(function () { clearBusy(); }, 800);
+            }
+            // Let the native iframe-targeted submit proceed.
+            return;
+        }
+
+        // Normal GET search forms navigate away: only spin the clicked Search
+        // button and leave it enabled (no disable, so Back/restore keeps working).
+        if (form.method.toUpperCase() === 'GET') {
+            form.dataset.submitting = 'true';
+            busyButtons.forEach(function (button) {
+                button.setAttribute('aria-busy', 'true');
+                button.classList.add('is-loading');
+            });
+            return;
+        }
+
         form.dataset.submitting = 'true';
-        form.querySelectorAll('button[type="submit"], button:not([type]), input[type="submit"]').forEach(function (button) {
-            button.disabled = true;
-            button.setAttribute('aria-busy', 'true');
-        });
+        markBusy();
     }, true);
 </script>

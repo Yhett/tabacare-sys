@@ -30,7 +30,9 @@
             margin: 0;
             background: var(--paper);
             color: var(--ink);
-            font-family: Georgia, "Times New Roman", serif;
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
         button {
@@ -66,18 +68,22 @@
         .admin-mark {
             width: 38px;
             height: 38px;
+            flex: 0 0 38px;
             display: grid;
             place-items: center;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, .4);
             border-radius: 10px;
+            background: #fff;
             color: #70ddd0;
             font: 24px Arial, sans-serif;
         }
 
         .admin-mark img {
-            width: 34px;
-            height: 34px;
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 4px;
             object-fit: contain;
         }
 
@@ -90,7 +96,7 @@
 
         .admin-brand small {
             color: #91a7b5;
-            font: 10px Arial, sans-serif;
+            font: 10px var(--font-sans);
             letter-spacing: .08em;
             text-transform: uppercase;
         }
@@ -98,7 +104,7 @@
         .admin-label {
             padding: 25px 12px 9px;
             color: #8094a2;
-            font: 700 10px Arial, sans-serif;
+            font: 700 10px var(--font-sans);
             letter-spacing: .13em;
             text-transform: uppercase;
         }
@@ -116,7 +122,7 @@
             border-radius: 8px;
             color: #aabac5;
             text-decoration: none;
-            font: 600 14px Arial, sans-serif;
+            font: 600 14px var(--font-sans);
         }
 
         .admin-nav a:hover,
@@ -128,7 +134,7 @@
         .admin-icon {
             width: 20px;
             text-align: center;
-            font-family: Arial, sans-serif;
+            font-family: var(--font-sans);
         }
 
         .admin-footer {
@@ -136,7 +142,7 @@
             padding: 16px 12px 4px;
             border-top: 1px solid rgba(255, 255, 255, .08);
             color: #8da1ad;
-            font: 12px/1.5 Arial, sans-serif;
+            font: 12px/1.5 var(--font-sans);
         }
 
         .admin-main {
@@ -155,7 +161,7 @@
 
         .eyebrow {
             color: var(--teal);
-            font: 700 11px Arial, sans-serif;
+            font: 700 11px var(--font-sans);
             letter-spacing: .16em;
             text-transform: uppercase;
         }
@@ -163,7 +169,8 @@
         h1 {
             margin: 7px 0 6px;
             font-size: clamp(28px, 4vw, 42px);
-            font-weight: 400;
+            font-weight: 600;
+            letter-spacing: -.02em;
         }
 
         .intro {
@@ -177,7 +184,7 @@
             align-items: center;
             gap: 10px;
             color: var(--muted);
-            font: 13px Arial, sans-serif;
+            font: 13px var(--font-sans);
             white-space: nowrap;
         }
 
@@ -214,7 +221,7 @@
 
         .stat-label {
             color: var(--muted);
-            font: 700 10px Arial, sans-serif;
+            font: 700 10px var(--font-sans);
             letter-spacing: .11em;
             text-transform: uppercase;
         }
@@ -231,7 +238,7 @@
 
         .stat-note {
             color: var(--muted);
-            font: 12px Arial, sans-serif;
+            font: 12px var(--font-sans);
         }
 
         .primary .stat-note {
@@ -402,6 +409,7 @@
     }
 }
     </style>
+    @include('partials.fonts')
 </head>
 
 <body>

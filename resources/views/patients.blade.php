@@ -130,6 +130,11 @@
             color: #fff;
             cursor: pointer;
             font: 700 12px Arial, sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
         }
 
         .button:hover {
@@ -151,6 +156,17 @@
         .button:disabled {
             opacity: .7;
             cursor: wait;
+        }
+
+        /* Export runs in its own row so its loading state never touches Search. */
+        .toolbar-export {
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .export-hint {
+            color: var(--muted);
+            font: 12px Arial, sans-serif;
         }
 
         .alert {
@@ -510,6 +526,7 @@
             }
         }
     </style>
+    @include('partials.fonts')
 </head>
 
 <body>
@@ -578,9 +595,7 @@
             </div>
         @endif
 
-        <form class="toolbar" method="GET" action="{{ route('patients.index') }}">
-
-            @csrf
+        <form class="toolbar" id="patientSearchForm" method="GET" action="{{ route('patients.index') }}">
 
             <div class="field">
                 <label for="search">Search patient code</label>
@@ -607,7 +622,7 @@
                 </select>
             </div>
 
-            <button class="button" type="submit">
+            <button class="button" id="patientSearchButton" type="submit">
                 Search
             </button>
 
@@ -620,22 +635,31 @@
             @endif
 
             <button
-                class="button secondary"
-                type="submit"
-                formmethod="POST"
-                formaction="{{ route('patients.export') }}"
-                formtarget="exportFrame"
-                onclick="showExportNotice()">
-                Export Excel
-            </button>
-
-            <button
                 class="button coral"
                 type="button"
                 onclick="openPatientModal()">
                 + Add patient
             </button>
 
+        </form>
+
+        <form
+            class="toolbar toolbar-export"
+            id="patientExportForm"
+            method="POST"
+            action="{{ route('patients.export') }}"
+            target="exportFrame">
+            @csrf
+            <input type="hidden" name="search" value="{{ $search }}">
+            <input type="hidden" name="filter_disease" value="{{ $filterDisease }}">
+            <button
+                class="button secondary"
+                id="patientExportButton"
+                type="submit"
+                onclick="showExportNotice()">
+                Export Excel
+            </button>
+            <span class="export-hint">Exports the records matching the current search / filter above.</span>
         </form>
 
         <section class="table-panel">
@@ -853,177 +877,93 @@
                         max="150"
                         required>
 
-                    <select
-                        name="age_unit"
-                        aria-label="Age unit"
-                        required>
-
-                        <option value="years">
-                            Years
-                        </option>
-
-                        <option value="months">
-                            Months
-                        </option>
-
-                        <option value="days">
-                            Days
-                        </option>
-
+                    <select name="age_unit" aria-label="Age unit" required>
+                        <option value="years"> Years </option>
+                        <option value="months"> Months </option>
+                        <option value="days"> Days </option>
                     </select>
 
                 </div>
-
             </div>
 
             <div class="field">
-
-                <label for="gender">
-                    Gender
-                </label>
-
-                <select
-                    id="gender"
-                    name="gender"
-                    required>
-
-                    <option value="">
-                        Select gender
-                    </option>
-
-                    <option>
-                        Male
-                    </option>
-
-                    <option>
-                        Female
-                    </option>
-
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
                 </select>
-
             </div>
 
             <div class="field">
-
-                <label for="disease">
-                    Disease
-                </label>
-
-                <select
-                    id="disease"
-                    name="disease"
-                    required>
-
-                    <option value="">
-                        Select disease
-                    </option>
-
+                <label for="disease"> Disease</label>
+                <select id="disease" name="disease" required>
+                    <option value="">Select disease</option>
                     @foreach($diseases as $disease)
-                        <option>
-                            {{ $disease }}
-                        </option>
+                        <option>{{ $disease }}</option>
                     @endforeach
-
                 </select>
-
             </div>
 
             <div class="field">
-
-                <label for="date_onset">
-                    Date of onset
-                </label>
-
-                <input
-                    id="date_onset"
-                    name="date_onset"
-                    type="date"
-                    required>
-
+                <label for="date_onset"> Date of onset</label>
+                <input id="date_onset" name="date_onset" type="date" required>
             </div>
 
-            <div class="assigned">
-                Barangay is fixed to
-                <strong>{{ $barangay }}</strong>
-                for this account.
-            </div>
+            <div class="assigned"> Barangay is fixed to<strong>{{ $barangay }}</strong> for this account.</div>
 
             <div class="modal-actions">
-
-                <button
-                    class="button secondary"
-                    type="button"
-                    onclick="closePatientModal()">
-                    Cancel
-                </button>
-
-                <button
-                    class="button"
-                    id="submitButton"
-                    type="submit">
-                    Add patient
-                </button>
-
+                <button class="button secondary" type="button" onclick="closePatientModal()">Cancel</button>
+                <button class="button" id="submitButton" type="submit">Add patient</button>
             </div>
-
         </form>
-
     </dialog>
 
     <script>
-
         const modal = document.getElementById('patientModal');
         const form = document.getElementById('patientForm');
         const methodField = document.getElementById('methodField');
         const patientsStoreUrl = @json(route('patients.store'));
 
+        // Keep the separate Export form in sync with the live Search inputs,
+        // so Export always downloads what is currently typed/selected.
+        const searchInput = document.getElementById('search');
+        const diseaseInput = document.getElementById('filter_disease');
+        const exportForm = document.getElementById('patientExportForm');
+        function syncExportFilters() {
+            if (!exportForm) return;
+            const searchField = exportForm.querySelector('input[name="search"]');
+            const diseaseField = exportForm.querySelector('input[name="filter_disease"]');
+            if (searchField && searchInput) searchField.value = searchInput.value;
+            if (diseaseField && diseaseInput) diseaseField.value = diseaseInput.value;
+        }
+        if (searchInput) searchInput.addEventListener('input', syncExportFilters);
+        if (diseaseInput) diseaseInput.addEventListener('change', syncExportFilters);
+        if (exportForm) exportForm.addEventListener('submit', syncExportFilters);
+
         function openPatientModal() {
-
             form.reset();
-
             form.action = patientsStoreUrl;
-
             methodField.value = '';
-
             document.getElementById('modalTitle').textContent = 'Add patient';
-
             document.getElementById('submitButton').textContent = 'Add patient';
-
             modal.showModal();
         }
 
         function editPatient(patient) {
-
             form.action = '/patients/' + patient.id;
 
             methodField.value = 'PUT';
+            document.getElementById('patient_code').value = patient.patient_code || '';
+            document.getElementById('age').value = patient.age ?? '';
+            form.querySelector('[name="age_unit"]').value = patient.age_unit || 'years';
 
-            document.getElementById('patient_code').value =
-                patient.patient_code || '';
-
-            document.getElementById('age').value =
-                patient.age ?? '';
-
-            form.querySelector('[name="age_unit"]').value =
-                patient.age_unit || 'years';
-
-            document.getElementById('gender').value =
-                patient.gender || '';
-
-            document.getElementById('disease').value =
-                patient.disease || '';
-
-            document.getElementById('date_onset').value =
-                patient.date_onset
-                    ? patient.date_onset.substring(0, 10)
-                    : '';
-
-            document.getElementById('modalTitle').textContent =
-                'Edit patient';
-
-            document.getElementById('submitButton').textContent =
-                'Save changes';
-
+            document.getElementById('gender').value = patient.gender || '';
+            document.getElementById('disease').value = patient.disease || '';
+            document.getElementById('date_onset').value = patient.date_onset
+                    ? patient.date_onset.substring(0, 10) : '';
+            document.getElementById('modalTitle').textContent = 'Edit patient';
+            document.getElementById('submitButton').textContent = 'Save changes';
             modal.showModal();
         }
 
@@ -1031,34 +971,20 @@
             modal.close();
         }
 
-        /*
-         * Show export notification.
-         *
-         * The actual Excel download is handled by the hidden iframe,
-         * so the main page does not navigate away and Laravel's
-         * normal CSRF-protected form submission is preserved.
-         */
         function showExportNotice() {
 
             const notice = document.createElement('div');
-
             notice.className = 'export-notice';
-
             notice.innerHTML = `
                 <span class="export-icon">✓</span>
                 <span>File exported successfully.</span>
             `;
-
             document.body.appendChild(notice);
-
             setTimeout(function () {
                 notice.remove();
             }, 3000);
         }
-
     </script>
-
     @include('partials.submit-guard')
-
 </body>
 </html>

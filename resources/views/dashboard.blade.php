@@ -95,17 +95,14 @@
 }
 /* MOBILE VIEW */
 @media (max-width: 850px) {
-
     /* Hide sidebar */
     .sidebar {
         display: none;
     }
-
     .shell {
         grid-template-columns: 1fr;
     }
 
-    /* Show mobile notice */
     .mobile-pc-notice {
         display: block;
     }
@@ -162,6 +159,7 @@
     }
 }
     </style>
+    @include('partials.fonts')
 </head>
 <body>
     @php($initial = strtoupper(substr($worker, 0, 1)))

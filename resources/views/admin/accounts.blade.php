@@ -64,12 +64,23 @@
         .mark {
             width: 38px;
             height: 38px;
+            flex: 0 0 38px;
             display: grid;
             place-items: center;
+            overflow: hidden;
             border: 1px solid rgba(255,255,255,.4);
             border-radius: 10px;
+            background: #fff;
             color: #70ddd0;
             font: 24px Arial, sans-serif;
+        }
+
+        .mark img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 4px;
+            object-fit: contain;
         }
 
         .brand strong {
@@ -497,6 +508,7 @@
             }
         }
     </style>
+    @include('partials.fonts')
 </head>
 
 <body>
@@ -507,7 +519,7 @@
     <aside class="sidebar">
 
         <div class="brand">
-            <div class="mark">+</div>
+            <div class="mark"><img src="{{ asset('images/tabacare-logo.png') }}" alt="TABACARE logo"></div>
 
             <div>
                 <strong>TABACARE</strong>

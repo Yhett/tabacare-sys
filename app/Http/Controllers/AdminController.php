@@ -25,7 +25,15 @@ class AdminController extends Controller
     ];
 
     private const DISEASES = ['Influenza', 'Measles', 'Common Cold', 'Chickenpox', 'Hand, Foot, and Mouth Disease'];
-    private const OUTBREAK_THRESHOLD = 50;
+    /**
+     * Monthly case tiers used by the disease-statistics outbreak indicator.
+     *
+     * below 200 cases   => clear    (green)  no outbreak
+     * 200 - 299 cases   => warning  (orange) nearly alarming
+     * 300 cases and up  => outbreak (red)
+     */
+    private const OUTBREAK_WARNING_THRESHOLD = 200;
+    private const OUTBREAK_CRITICAL_THRESHOLD = 300;
 
     public function dashboard(Request $request): View
     {
@@ -154,7 +162,14 @@ class AdminController extends Controller
             ->selectRaw('disease, COUNT(*) as total')
             ->groupBy('disease')
             ->pluck('total', 'disease');
-        $outbreakAlerts = $monthlyCases->filter(fn ($total) => $total >= self::OUTBREAK_THRESHOLD);
+        $outbreakAlerts = $monthlyCases->filter(fn ($total) => $total >= self::OUTBREAK_WARNING_THRESHOLD)->sortDesc();
+        $outbreakDiseases = $monthlyCases->filter(fn ($total) => $total >= self::OUTBREAK_CRITICAL_THRESHOLD)->sortDesc();
+        $peakMonthlyCases = (int) $monthlyCases->max();
+        $outbreakLevel = match (true) {
+            $peakMonthlyCases >= self::OUTBREAK_CRITICAL_THRESHOLD => 'outbreak',
+            $peakMonthlyCases >= self::OUTBREAK_WARNING_THRESHOLD => 'warning',
+            default => 'clear',
+        };
         $barangayCounts = Patient::query()
             ->when($filter !== '', fn ($query) => $query->where('disease', $filter))
             ->selectRaw('address, COUNT(*) as total')
@@ -192,7 +207,11 @@ class AdminController extends Controller
             'monthlyCases' => $monthlyCases,
             'monthlyTotal' => $monthlyCases->sum(),
             'outbreakAlerts' => $outbreakAlerts,
-            'outbreakThreshold' => self::OUTBREAK_THRESHOLD,
+            'outbreakDiseases' => $outbreakDiseases,
+            'outbreakLevel' => $outbreakLevel,
+            'outbreakPeakCases' => $peakMonthlyCases,
+            'outbreakWarningThreshold' => self::OUTBREAK_WARNING_THRESHOLD,
+            'outbreakCriticalThreshold' => self::OUTBREAK_CRITICAL_THRESHOLD,
             'totalPatients' => Patient::count(),
             'barangayCounts' => $barangayCounts,
             'trendLabels' => $trendLabels,
