@@ -1157,62 +1157,29 @@ function switchAuthTab(tab) {
     }
 
 
-    const title = 
-        document.getElementById('panelTitle');
+    const title    = document.getElementById('panelTitle');
+    const subtitle = document.getElementById('panelSubtitle');
 
-    const subtitle = 
-        document.getElementById('panelSubtitle');
-
-
-    if(tab = == 'admin') {
-
-        title.textContent = 'Admin Login';
-
-        subtitle.textContent = 
-            'Sign in to manage the system';
-
+    if(tab               ==='admin') {title.textContent = 'Admin Login';
+    subtitle.textContent = 'Sign in to manage the system';
     } else {
-
-        title.textContent = 
-            'Health Worker Login';
-
-        subtitle.textContent = 
-            'Sign in to manage patients';
-
+        title.textContent    = 'Health Worker Login';
+        subtitle.textContent = 'Sign in to manage patients';
     }
-
 }
 
-
-/* = ========================================
-   SHOW / HIDE PASSWORD
- = ======================================== */
-
 function togglePassword(inputId, button) {
-
-    const passwordInput = 
-        document.getElementById(inputId);
-
-
+    const passwordInput = document.getElementById(inputId);
     if(!passwordInput) {
         return;
     }
-
-
-    if(passwordInput.type = == 'password') {
-
+    if(passwordInput.type  = == 'password') {
         passwordInput.type = 'text';
-
         button.textContent = 'Hide';
-
     } else {
-
         passwordInput.type = 'password';
-
         button.textContent = 'Show';
-
     }
-
 }
 
 </script>
