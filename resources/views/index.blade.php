@@ -16,28 +16,28 @@ $activeTab = $_GET['tab'] ?? 'worker';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en">
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset = "UTF-8">
+<meta name    = "viewport" content="width=device-width, initial-scale=1">
 
 <title>TABACARE System</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel = "preconnect" href="https://fonts.googleapis.com">
+<link rel = "preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet"
+    href = "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel  = "stylesheet"
 >
 
 <style>
 
-/* ==============================
+/* = =============================
    RESET
-============================== */
+ = ============================= */
 
 * {
     box-sizing: border-box;
@@ -50,9 +50,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    LANDING PAGE
-============================== */
+ = ============================= */
 
 .landing-page {
     min-height: 100vh;
@@ -63,9 +63,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    LEFT SIDE
-============================== */
+ = ============================= */
 
 .landing-left {
     flex: 1;
@@ -135,9 +135,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    HERO
-============================== */
+ = ============================= */
 
 .hero-inner {
 
@@ -169,9 +169,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    LOGOS
-============================== */
+ = ============================= */
 
 .hero-logos {
 
@@ -190,8 +190,8 @@ body {
 
 .hero-logos img {
 
-    width: 80px;
-    height: 80px;
+    width: 150px;
+    height: 150px;
 
     object-fit: contain;
 
@@ -211,9 +211,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    HERO TITLE
-============================== */
+ = ============================= */
 
 .hero-inner h1 {
 
@@ -247,9 +247,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    HERO FEATURES
-============================== */
+ = ============================= */
 
 .hero-features {
 
@@ -314,9 +314,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    RIGHT SIDE
-============================== */
+ = ============================= */
 
 .landing-right {
 
@@ -342,9 +342,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    LOGIN CARD
-============================== */
+ = ============================= */
 
 .login-card {
 
@@ -378,9 +378,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    ALERT
-============================== */
+ = ============================= */
 
 .alert {
 
@@ -414,9 +414,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    AUTH TABS
-============================== */
+ = ============================= */
 
 .auth-tabs {
 
@@ -479,9 +479,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    AUTH PANES
-============================== */
+ = ============================= */
 
 .auth-pane {
 
@@ -510,9 +510,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    ROLE BADGES
-============================== */
+ = ============================= */
 
 .role-badge-inline {
 
@@ -554,9 +554,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    FORM INPUTS
-============================== */
+ = ============================= */
 
 .auth-pane form {
 
@@ -568,7 +568,7 @@ body {
 }
 
 
-.auth-pane input[type="text"],
+.auth-pane input[type = "text"],
 .auth-pane select {
 
     width: 100%;
@@ -595,7 +595,7 @@ body {
 }
 
 
-.auth-pane input[type="text"]:focus,
+.auth-pane input[type = "text"]:focus,
 .auth-pane select:focus {
 
     border-color: #2dd4bf;
@@ -607,9 +607,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    PASSWORD
-============================== */
+ = ============================= */
 
 .password-wrapper {
 
@@ -691,9 +691,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    SIGN IN BUTTON
-============================== */
+ = ============================= */
 
 .auth-pane form > button {
 
@@ -745,9 +745,9 @@ body {
 }
 
 
-/* ==============================
+/* = =============================
    MOBILE
-============================== */
+ = ============================= */
 
 @media (max-width: 900px) {
 
@@ -834,16 +834,16 @@ body {
 
 <body>
 
-<div class="landing-page">
+<div class = "landing-page">
 
-    <!-- =========================================
+    <!-- = ========================================
          LEFT / WELCOME SECTION
-    ========================================== -->
+ = ========================================= -->
 
-    <div class="landing-left">
-        <div class="hero-inner">
-            <div class="hero-logos">
-                <img src="{{ asset('images/tabacare-logo.png') }}" alt="TABACARE System Logo">
+    <div class           = "landing-left">
+        <div class       = "hero-inner">
+            <div class   = "hero-logos">
+                <img src = "{{ asset('images/tabacare-logo.png') }}" alt="TABACARE System Logo">
             </div>
             <h1>Welcome to TABACARE</h1>
             <p>
@@ -852,132 +852,132 @@ body {
                 and health worker coordination in one place.
             </p>
 
-            <div class="hero-features">
-                <div class="hero-feature">
+            <div class     = "hero-features">
+                <div class = "hero-feature">
                     <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        width           = "24"
+                        height          = "24"
+                        viewBox         = "0 0 24 24"
+                        fill            = "none"
+                        stroke          = "currentColor"
+                        stroke-width    = "2"
+                        stroke-linecap  = "round"
+                        stroke-linejoin = "round"
                     >
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
+                        <path d    = "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx = "12" cy="7" r="4"/>
                     </svg>
 
                     <span>Patient Records</span>
                 </div>
 
-                <div class="hero-feature">
+                <div class = "hero-feature">
                     <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        width           = "24"
+                        height          = "24"
+                        viewBox         = "0 0 24 24"
+                        fill            = "none"
+                        stroke          = "currentColor"
+                        stroke-width    = "2"
+                        stroke-linecap  = "round"
+                        stroke-linejoin = "round"
                     >
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        <path d = "M22 12h-4l-3 9L9 3l-3 9H2"/>
                     </svg>
 
                     <span>Disease Tracking</span>
                 </div>
 
-                <div class="hero-feature">
+                <div class = "hero-feature">
                     <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        width           = "24"
+                        height          = "24"
+                        viewBox         = "0 0 24 24"
+                        fill            = "none"
+                        stroke          = "currentColor"
+                        stroke-width    = "2"
+                        stroke-linecap  = "round"
+                        stroke-linejoin = "round"
                     >
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <path d="M3 9h18"/>
+                        <rect x = "3" y="3" width="18" height="18" rx="2"/>
+                        <path d = "M3 9h18"/>
                     </svg>
 
                     <span>Reports</span>
                 </div>
             </div>
-            <a class="get-help-link" href="{{ route('help') }}" aria-label="Get help using TABACARE">
-                <span aria-hidden="true">?</span> Get Help
+            <a class              = "get-help-link" href="{{ route('help') }}" aria-label="Get help using TABACARE">
+                <span aria-hidden = "true">?</span> Get Help
             </a>
         </div>
     </div>
 
-    <!-- =========================================
+    <!-- = ========================================
          RIGHT / LOGIN SECTION
-    ========================================== -->
+ = ========================================= -->
 
-    <div class="landing-right">
-        <div class="login-card">
-            <h2 id="panelTitle">Sign In</h2>
-            <p class="subtitle" id="panelSubtitle">Sign in to access your dashboard</p>
+    <div class       = "landing-right">
+        <div class   = "login-card">
+            <h2 id   = "panelTitle">Sign In</h2>
+            <p class = "subtitle" id="panelSubtitle">Sign in to access your dashboard</p>
 
             <!-- LOGIN ERROR -->
 
             @if ($errors->any())
 
-                <div class="alert alert-error">{{ $errors->first() }}</div>
+                <div class = "alert alert-error">{{ $errors->first() }}</div>
 
             @endif
 
             <!-- AUTH TABS -->
 
-            <div class="auth-tabs">
-                <button type="button" class="auth-tab <?php echo ($activeTab=='admin')?'active':''; ?>"
-                    onclick="switchAuthTab('admin')"
+            <div class       = "auth-tabs">
+                <button type = "button" class="auth-tab <?php echo ($activeTab=='admin')?'active':''; ?>"
+                    onclick  = "switchAuthTab('admin')"
                 >Admin</button>
 
                 <button
-                    type="button"
-                    class="auth-tab <?php echo ($activeTab=='worker')?'active':''; ?>"
-                    onclick="switchAuthTab('worker')"
+                    type    = "button"
+                    class   = "auth-tab <?php echo ($activeTab=='worker')?'active':''; ?>"
+                    onclick = "switchAuthTab('worker')"
                 >
                     Health Worker
                 </button>
             </div>
 
-            <!-- =================================
+            <!-- = ================================
                  ADMIN LOGIN
-            ================================== -->
+ = ================================= -->
 
-            <div id="auth-admin" class="auth-pane <?php echo ($activeTab=='admin')?'active':''; ?>">
-                <div class="role-badge-inline admin">
+            <div id        = "auth-admin" class="auth-pane <?php echo ($activeTab=='admin')?'active':''; ?>">
+                <div class = "role-badge-inline admin">
                     <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        width           = "14"
+                        height          = "14"
+                        viewBox         = "0 0 24 24"
+                        fill            = "none"
+                        stroke          = "currentColor"
+                        stroke-width    = "2"
+                        stroke-linecap  = "round"
+                        stroke-linejoin = "round"
                     >
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
+                        <path d    = "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx = "12" cy="7" r="4"/>
                     </svg>
                     Administrator Access
                 </div>
 
-                <form method="POST" action="{{ route('login') }}">
+                <form method = "POST" action="{{ route('login') }}">
                     @csrf
-                    <input type="hidden" name="role" value="admin">
-                    <input type="text" name="username" placeholder="Admin Username" required autocomplete="username">
+                    <input type = "hidden" name="role" value="admin">
+                    <input type = "text" name="username" placeholder="Admin Username" required autocomplete="username">
 
-                    <div class="password-wrapper">
-                        <input type="password" name="password" id="adminPassword" placeholder="Password" required autocomplete="current-password">
+                    <div class      = "password-wrapper">
+                        <input type = "password" name="password" id="adminPassword" placeholder="Password" required autocomplete="current-password">
                         <button
-                            type="button"
-                            class="password-toggle"
-                            onclick="togglePassword('adminPassword', this)"
+                            type    = "button"
+                            class   = "password-toggle"
+                            onclick = "togglePassword('adminPassword', this)"
                         >
                             Show
                         </button>
@@ -986,8 +986,8 @@ body {
 
 
                     <button
-                        type="submit"
-                        name="login"
+                        type = "submit"
+                        name = "login"
                     >
                         Sign In as Admin
                     </button>
@@ -997,28 +997,28 @@ body {
             </div>
 
 
-            <!-- =================================
+            <!-- = ================================
                  HEALTH WORKER LOGIN
-            ================================== -->
+ = ================================= -->
 
             <div
-                id="auth-worker"
-                class="auth-pane <?php echo ($activeTab=='worker')?'active':''; ?>"
+                id    = "auth-worker"
+                class = "auth-pane <?php echo ($activeTab=='worker')?'active':''; ?>"
             >
 
-                <div class="role-badge-inline worker">
+                <div class = "role-badge-inline worker">
 
                     <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        width           = "14"
+                        height          = "14"
+                        viewBox         = "0 0 24 24"
+                        fill            = "none"
+                        stroke          = "currentColor"
+                        stroke-width    = "2"
+                        stroke-linecap  = "round"
+                        stroke-linejoin = "round"
                     >
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        <path d = "M22 12h-4l-3 9L9 3l-3 9H2"/>
                     </svg>
 
                     Barangay Health Worker Access
@@ -1026,40 +1026,40 @@ body {
                 </div>
 
 
-                <form method="POST" action="{{ route('login') }}">
+                <form method = "POST" action="{{ route('login') }}">
                     @csrf
 
                     <input
-                        type="hidden"
-                        name="role"
-                        value="health_worker"
+                        type  = "hidden"
+                        name  = "role"
+                        value = "health_worker"
                     >
 
 
                     <input
-                        type="text"
-                        name="username"
-                        placeholder="Username"
+                        type        = "text"
+                        name        = "username"
+                        placeholder = "Username"
                         required
-                        autocomplete="username"
+                        autocomplete = "username"
                     >
 
 
-                    <div class="password-wrapper">
+                    <div class = "password-wrapper">
 
                         <input
-                            type="password"
-                            name="password"
-                            id="workerPassword"
-                            placeholder="Password"
+                            type        = "password"
+                            name        = "password"
+                            id          = "workerPassword"
+                            placeholder = "Password"
                             required
-                            autocomplete="current-password"
+                            autocomplete = "current-password"
                         >
 
                         <button
-                            type="button"
-                            class="password-toggle"
-                            onclick="togglePassword('workerPassword', this)"
+                            type    = "button"
+                            class   = "password-toggle"
+                            onclick = "togglePassword('workerPassword', this)"
                         >
                             Show
                         </button>
@@ -1068,18 +1068,18 @@ body {
 
 
                     <select
-                        name="barangay"
+                        name = "barangay"
                         required
                     >
 
-                        <option value="">
+                        <option value = "">
                             Select Barangay
                         </option>
 
                         <?php foreach($barangays as $barangay): ?>
 
                             <option
-                                value="<?php echo htmlspecialchars($barangay); ?>"
+                                value = "<?php echo htmlspecialchars($barangay); ?>"
                             >
                                 <?php echo htmlspecialchars($barangay); ?>
                             </option>
@@ -1090,8 +1090,8 @@ body {
 
 
                     <button
-                        type="submit"
-                        name="login"
+                        type = "submit"
+                        name = "login"
                     >
                         Sign In as Health Worker
                     </button>
@@ -1109,9 +1109,9 @@ body {
 
 <script>
 
-/* =========================================
+/* = ========================================
    SWITCH ADMIN / HEALTH WORKER
-========================================= */
+ = ======================================== */
 
 function switchAuthTab(tab) {
 
@@ -1124,9 +1124,9 @@ function switchAuthTab(tab) {
         });
 
 
-    const tabButton =
+    const tabButton = 
         document.querySelector(
-            ".auth-tab[onclick*='" + tab + "']"
+            ".auth-tab[onclick* = '" + tab + "']"
         );
 
 
@@ -1146,7 +1146,7 @@ function switchAuthTab(tab) {
         });
 
 
-    const selectedPane =
+    const selectedPane = 
         document.getElementById('auth-' + tab);
 
 
@@ -1157,26 +1157,26 @@ function switchAuthTab(tab) {
     }
 
 
-    const title =
+    const title = 
         document.getElementById('panelTitle');
 
-    const subtitle =
+    const subtitle = 
         document.getElementById('panelSubtitle');
 
 
-    if(tab === 'admin') {
+    if(tab = == 'admin') {
 
         title.textContent = 'Admin Login';
 
-        subtitle.textContent =
+        subtitle.textContent = 
             'Sign in to manage the system';
 
     } else {
 
-        title.textContent =
+        title.textContent = 
             'Health Worker Login';
 
-        subtitle.textContent =
+        subtitle.textContent = 
             'Sign in to manage patients';
 
     }
@@ -1184,13 +1184,13 @@ function switchAuthTab(tab) {
 }
 
 
-/* =========================================
+/* = ========================================
    SHOW / HIDE PASSWORD
-========================================= */
+ = ======================================== */
 
 function togglePassword(inputId, button) {
 
-    const passwordInput =
+    const passwordInput = 
         document.getElementById(inputId);
 
 
@@ -1199,7 +1199,7 @@ function togglePassword(inputId, button) {
     }
 
 
-    if(passwordInput.type === 'password') {
+    if(passwordInput.type = == 'password') {
 
         passwordInput.type = 'text';
 
