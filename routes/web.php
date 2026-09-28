@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 
+
 Route::get('/', function () {
     return view('index');
 })->name('home');
@@ -46,3 +47,5 @@ Route::get('/admin/reports/{report}/download', [AdminController::class, 'downloa
 
 Route::put('/admin/patients/{patient}',[AdminPatientController::class,'update'])->name('admin.patients.update');
 Route::delete('/admin/patients/{patient}',[AdminPatientController::class,'destroy'])->name('admin.patients.destroy');
+
+Route::delete('/admin/reports/{id}',[AdminController::class, 'destroyReport'])->name('admin.reports.destroy');

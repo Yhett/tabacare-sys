@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Illuminate\View\View;
+use App\Http\Controllers\AdminController;
 
 class AdminController extends Controller
 {
@@ -361,4 +362,20 @@ class AdminController extends Controller
     {
         abort_unless($request->session()->get('role') === 'admin', 403);
     }
+
+public function destroyReport($id)
+{
+    $report = \App\Models\Report::findOrFail($id);
+
+    if ($report->attachment_path) {
+        \Illuminate\Support\Facades\Storage::disk('public')
+            ->delete($report->attachment_path);
+    }
+
+    $report->delete();
+
+    return redirect()
+        ->route('admin.reports')
+        ->with('success', 'Report deleted successfully.');
+}
 }
