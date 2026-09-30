@@ -415,6 +415,35 @@ body {
 
 
 /* ==============================
+   FORGOT PASSWORD LINK
+============================== */
+
+.forgot-password-link {
+
+    display: block;
+
+    margin-top: 14px;
+
+    text-align: center;
+
+    color: #0f766e;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.forgot-password-link:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* ==============================
    AUTH TABS
 ============================== */
 
@@ -929,6 +958,12 @@ body {
 
             @endif
 
+            @if (session('status'))
+
+                <div class="alert alert-success">{{ session('status') }}</div>
+
+            @endif
+
             <!-- AUTH TABS -->
 
             <div class="auth-tabs">
@@ -989,10 +1024,14 @@ body {
                         type="submit"
                         name="login"
                     >
-                        Sign In as Admin
+                        Login as Admin
                     </button>
 
                 </form>
+
+                <a class="forgot-password-link" href="{{ route('password.request') }}">
+                    Forgot Password?
+                </a>
 
             </div>
 
@@ -1093,7 +1132,7 @@ body {
                         type="submit"
                         name="login"
                     >
-                        Sign In as Health Worker
+                        Login as Health Worker
                     </button>
 
                 </form>
@@ -1200,15 +1239,12 @@ function togglePassword(inputId, button) {
 
 
     if(passwordInput.type === 'password') {
-
         passwordInput.type = 'text';
-
         button.textContent = 'Hide';
 
     } else {
 
         passwordInput.type = 'password';
-
         button.textContent = 'Show';
 
     }

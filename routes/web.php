@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminPatientController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DashboardController;
@@ -18,6 +19,12 @@ Route::view('/help', 'help')->name('help');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+/* Admin "Forgot Password" (security-question recovery) */
+Route::get('/forgot-password', [PasswordResetController::class, 'create'])->name('password.request');
+Route::post('/forgot-password', [PasswordResetController::class, 'identify'])->middleware('throttle:10,1')->name('password.identify');
+Route::post('/forgot-password/reset', [PasswordResetController::class, 'reset'])->middleware('throttle:5,1')->name('password.update');
+Route::post('/forgot-password/cancel', [PasswordResetController::class, 'cancel'])->name('password.cancel');
 
 Route::resource('patients', PatientController::class)->only(['index', 'store', 'update', 'destroy']);
 Route::post('/patients/export', [PatientController::class, 'export'])->name('patients.export');

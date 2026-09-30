@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -107,9 +108,11 @@ class AdminController extends Controller
         $data = $request->validate([
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'password' => ['required', 'string', 'min:8'],
+            'security_question' => ['required', Rule::in(User::SECURITY_QUESTIONS)],
+            'security_answer' => ['required', 'string', 'max:255'],
         ]);
 
-        User::create([
+        $admin = User::create([
             'username' => $data['username'],
             'name' => $data['username'],
             'email' => $data['username'] . '@tabacare.local',
@@ -118,6 +121,9 @@ class AdminController extends Controller
             'barangay' => null,
             'created_by' => $request->session()->get('id'),
         ]);
+
+        $admin->setSecurityQuestion($data['security_question'], $data['security_answer']);
+        $admin->save();
 
         return to_route('admin.admin-accounts.index')->with('success', 'Administrator account created successfully.');
     }
@@ -130,7 +136,23 @@ class AdminController extends Controller
         $data = $request->validate([
             'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8'],
+            'security_question' => ['nullable', Rule::in(User::SECURITY_QUESTIONS)],
+            'security_answer' => ['nullable', 'string', 'max:255'],
         ]);
+
+        $question = filled($data['security_question'] ?? null)
+            ? $data['security_question']
+            : $user->security_question;
+
+        if (filled($data['security_answer'] ?? null)) {
+            // Blank fields keep the current question; a newly selected
+            // question is stored together with the new answer.
+            $user->setSecurityQuestion($question, $data['security_answer']);
+        } elseif ($question !== $user->security_question) {
+            throw ValidationException::withMessages([
+                'security_answer' => 'Enter the security answer that matches the selected question (or leave both fields blank to keep the current one).',
+            ]);
+        }
 
         $user->username = $data['username'];
         $user->name = $data['username'];
