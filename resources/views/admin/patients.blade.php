@@ -4,6 +4,7 @@
     <meta charset = "UTF-8">
     <meta name    = "viewport" content="width=device-width, initial-scale=1">
     <title>Patient Review | TABACARE</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/tabacare-logo.png') }}">
     <style>
         .sidebar { position: sticky; top: 0; height: 100vh; }
         :root { --ink:#1d2935; --muted:#70808b; --paper:#f4f7f8; --panel:#fff; --line:#e1e8eb; --teal:#0f766e; --teal-light:#e6f6f3; --nav:#172331; --shadow:0 14px 36px rgba(27,45,61,.08); }

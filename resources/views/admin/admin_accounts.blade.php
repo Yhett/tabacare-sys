@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Accounts | TABACARE</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/tabacare-logo.png') }}">
     <style>
         :root{--ink:#1d2935;--muted:#70808b;--paper:#f4f7f8;--panel:#fff;--line:#e1e8eb;--teal:#0f766e;--nav:#172331;--shadow:0 14px 36px rgba(27,45,61,.08)}
         *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif}.shell{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr)}

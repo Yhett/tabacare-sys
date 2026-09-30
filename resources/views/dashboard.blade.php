@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TABACARE Dashboard</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/tabacare-logo.png') }}">
     <style>
         :root {
             --ink: #18303b;
