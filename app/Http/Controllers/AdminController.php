@@ -209,14 +209,18 @@ class AdminController extends Controller
                 ->count();
         }
 
-        $currentMonth = now()->startOfMonth();
         $previousMonth = now()->subMonth()->startOfMonth();
-        $currentMonthTotal = Patient::whereBetween('date_onset', [$currentMonth->toDateString(), $currentMonth->copy()->endOfMonth()->toDateString()])->count();
         $previousMonthTotal = Patient::whereBetween('date_onset', [$previousMonth->toDateString(), $previousMonth->copy()->endOfMonth()->toDateString()])->count();
-        $monthChange = $previousMonthTotal === 0
-            ? ($currentMonthTotal > 0 ? 100 : 0)
-            : round((($currentMonthTotal - $previousMonthTotal) / $previousMonthTotal) * 100);
         $topBarangays = $barangayCounts->sortDesc()->take(5);
+
+        // The headline percentage must be derived from the two figures this card
+        // actually renders — the top-ranked barangay's case total and the
+        // "cases last month" figure directly beneath it — so the percentage can
+        // never contradict the numbers shown beside it.
+        $topBarangayCount = (int) ($topBarangays->values()->first() ?? 0);
+        $monthChange = $previousMonthTotal === 0
+            ? ($topBarangayCount > 0 ? 100 : 0)
+            : round((($topBarangayCount - $previousMonthTotal) / $previousMonthTotal) * 100);
         $barangayChartData = collect(self::BARANGAYS)
             ->mapWithKeys(fn ($barangay) => [$barangay => (int) ($barangayCounts[$barangay] ?? 0)])
             ->sortDesc();

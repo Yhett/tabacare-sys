@@ -254,6 +254,10 @@
             gap: 18px;
         }
 
+        .content-grid #workers {
+            grid-column: 1 / -1;
+        }
+
         .panel {
             min-width: 0;
             padding: 23px;
@@ -279,6 +283,10 @@
         .panel-heading span {
             color: var(--muted);
             font: 12px Arial, sans-serif;
+        }
+
+        .intro+.table-wrap {
+            margin-top: 18px;
         }
 
         .table-wrap {
@@ -552,14 +560,7 @@
 
             </section>
 
-            <!-- REPORTING CENTER -->
-            <section class="panel" id="reports" style="margin-top:18px">
-                <div class="panel-heading">
-                    <h2>Reporting center</h2>
-                    <span>System overview</span>
-                </div>
-                <p class="intro"> {{ $totalPatients }} patient records are currently available across {{ $barangayCount }} barangay areas.</p>
-            </section>
+            
         </main>
         <div class="mobile-pc-notice">
             <strong>&#9432; NOTICE</strong>
