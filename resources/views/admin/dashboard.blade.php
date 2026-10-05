@@ -446,7 +446,7 @@
                 <a href="{{ route('admin.accounts') }}"><span class="admin-icon">&#9673;</span>Barangay accounts</a>
                 <a href="{{ route('admin.reports') }}"><span class="admin-icon">&#9776;</span>Barangay reports</a>
                 <a href="{{ route('admin.statistics') }}"><span class="admin-icon">&#9646;</span>Disease statistics</a>
-                <a href="{{ route('admin.patients') }}"><span class="admin-icon">&#9998;</span>Patient records</a>
+                <a href="{{ route('admin.patients') }}"><span class="admin-icon">&#9998;</span>List of patients</a>
             </nav>
 
 
