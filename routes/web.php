@@ -48,6 +48,7 @@ Route::post('/admin/admin-accounts', [AdminController::class, 'storeAdminAccount
 Route::patch('/admin/admin-accounts/{user}', [AdminController::class, 'updateAdminAccount'])->name('admin.admin-accounts.update');
 Route::get('/admin/statistics', [AdminController::class, 'statistics'])->name('admin.statistics');
 Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
+Route::get('/admin/reports/overall-export', [AdminController::class, 'downloadOverallReport'])->name('admin.reports.overall-export');
 Route::get('/admin/reports/{report}/attachment', [AdminController::class, 'downloadAttachment'])->name('admin.reports.attachment');
 Route::get('/admin/reports/{report}/download', [AdminController::class, 'downloadReport'])->name('admin.reports.download');
 

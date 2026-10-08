@@ -246,6 +246,46 @@
             font: 12px Arial;
         }
 
+        .export-panel {
+            margin-bottom: 18px;
+            padding: 20px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+        }
+
+        .export-panel p {
+            margin: 7px 0 15px;
+            color: var(--muted);
+            font: 13px/1.5 Arial;
+        }
+
+        .export-form {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            gap: 10px;
+        }
+
+        .export-form label {
+            display: grid;
+            gap: 5px;
+            color: var(--muted);
+            font: 700 10px Arial;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        .export-form select {
+            min-width: 140px;
+            padding: 9px 10px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            background: #fff;
+            color: var(--ink);
+            font: 13px Arial;
+        }
+
         .table-wrap {
             overflow-x: auto;
         }
@@ -431,6 +471,16 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .export-form {
+                align-items: stretch;
+            }
+
+            .export-form label,
+            .export-form select,
+            .export-form .action {
+                width: 100%;
+            }
         }
     </style>
 
@@ -612,6 +662,29 @@
 
             </article>
 
+        </section>
+
+        <section class="export-panel">
+            <h2>Export overall morbidity report</h2>
+            <p>Download a citywide FHSIS morbidity report in the same Excel format submitted by barangays.</p>
+            <form class="export-form" method="GET" action="{{ route('admin.reports.overall-export') }}" target="exportFrame">
+                <label for="overall-period-type">
+                    Report period
+                    <select id="overall-period-type" name="period_type">
+                        <option value="monthly">Monthly</option>
+                        <option value="annual">Annual</option>
+                    </select>
+                </label>
+                <label id="overall-month-field" for="overall-month">
+                    Month
+                    <select id="overall-month" name="month">
+                        @foreach($months as $monthNumber => $monthName)
+                            <option value="{{ $monthNumber }}" @selected($monthNumber === now()->month)>{{ $monthName }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <button class="action" type="submit">Export Excel</button>
+            </form>
         </section>
 
         <section class="panel">
@@ -802,7 +875,24 @@
 
 </div>
 
+<iframe name="exportFrame" id="exportFrame" title="Excel download" hidden></iframe>
+
 @include('partials.submit-guard')
+
+<script>
+    const periodType = document.getElementById('overall-period-type');
+    const monthField = document.getElementById('overall-month-field');
+    const monthSelect = document.getElementById('overall-month');
+
+    function updateOverallReportPeriod() {
+        const isMonthly = periodType.value === 'monthly';
+        monthField.hidden = !isMonthly;
+        monthSelect.disabled = !isMonthly;
+    }
+
+    periodType.addEventListener('change', updateOverallReportPeriod);
+    updateOverallReportPeriod();
+</script>
 
 </body>
 </html>

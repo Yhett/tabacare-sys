@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -261,6 +262,55 @@ class AdminController extends Controller
             'reports' => $reports,
             'totalCases' => Report::sum('patient_count'),
             'barangayCount' => Report::query()->distinct('barangay')->count('barangay'),
+            'months' => collect(range(1, 12))
+                ->mapWithKeys(fn (int $month): array => [$month => Carbon::create(now()->year, $month, 1)->format('F')])
+                ->all(),
+        ]);
+    }
+
+    public function downloadOverallReport(Request $request): Response
+    {
+        $this->ensureAdmin($request);
+        $data = $request->validate([
+            'period_type' => ['required', 'in:monthly,annual'],
+            'month' => ['required_if:period_type,monthly', 'nullable', 'integer', 'between:1,12'],
+        ]);
+
+        $periodType = $data['period_type'];
+        $reportStart = $periodType === 'annual'
+            ? Carbon::create(now()->year, 1, 1)->startOfDay()
+            : Carbon::create(now()->year, (int) $data['month'], 1)->startOfMonth();
+        $reportEnd = $periodType === 'annual'
+            ? $reportStart->copy()->endOfYear()
+            : $reportStart->copy()->endOfMonth();
+        $rows = Patient::query()
+            ->whereIn('disease', self::DISEASES)
+            ->whereBetween('date_onset', [$reportStart->toDateString(), $reportEnd->toDateString()])
+            ->orderBy('disease')
+            ->latest('date_onset')
+            ->get();
+        $reportRows = app(ReportController::class)->summarizeRows($rows);
+        $barangay = 'All Barangays';
+        $selected = self::DISEASES;
+        $periodLabel = $periodType === 'annual'
+            ? 'Annual ' . $reportStart->format('Y')
+            : $reportStart->format('F Y');
+        $title = 'Overall Morbidity Report - ' . $periodLabel;
+        $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $title) . '.xls';
+
+        return response("\xEF\xBB\xBF" . view('reports.excel', [
+            'reportRows' => $reportRows,
+            'barangay' => $barangay,
+            'selected' => $selected,
+            'title' => $title,
+            'data' => ['prepared_by' => $request->session()->get('user', 'Administrator')],
+            'periodType' => $periodType,
+            'reportStart' => $reportStart,
+            'reportEnd' => $reportEnd,
+        ])->render(), 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Cache-Control' => 'no-cache',
         ]);
     }
 
