@@ -8,7 +8,7 @@
     <style>
         .sidebar { position: sticky; top: 0; height: 100vh; }
         :root { --ink:#1d2935; --muted:#70808b; --paper:#f4f7f8; --panel:#fff; --line:#e1e8eb; --teal:#0f766e; --teal-light:#e6f6f3; --nav:#172331; --shadow:0 14px 36px rgba(27,45,61,.08); }
-        * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; } button,input,select { font:inherit; }
+        * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-sans); -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; } button,input,select { font:inherit; }
         .shell { min-height:100vh; display:grid; grid-template-columns:260px 1fr; } .sidebar { display:flex; flex-direction:column; min-height:100vh; padding:22px 13px; background:var(--nav); color:#d9e3ea; }
         .brand { display:flex; align-items:center; gap:11px; padding:5px 12px 28px; border-bottom:1px solid rgba(255,255,255,.08); } .mark { width:38px; height:38px; flex:0 0 38px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.4); border-radius:10px; background:#fff; color:#70ddd0; font:24px Arial,sans-serif; } .brand strong { display:block; color:#fff; font:800 16px Arial,sans-serif; letter-spacing:.08em; } .brand small { color:#91a7b5; font:10px Arial,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
         .label { padding:25px 12px 9px; color:#8094a2; font:700 10px Arial,sans-serif; letter-spacing:.13em; text-transform:uppercase; } .nav { display:grid; gap:5px; } .nav a { display:flex; align-items:center; gap:11px; padding:12px; border-radius:8px; color:#aabac5; text-decoration:none; font:600 14px Arial,sans-serif; } .nav a:hover,.nav a.active { background:rgba(20,184,166,.14); color:#6ee7d8; } .nav-icon { width:20px; text-align:center; font-family:Arial,sans-serif; } .side-footer { margin-top:auto; padding:16px 12px 4px; border-top:1px solid rgba(255,255,255,.08); color:#8da1ad; font:12px/1.5 Arial,sans-serif; }
@@ -43,7 +43,9 @@
 .delete-btn{background:#fff0ee;color:#b13d31}
 .delete-btn:hover{background:#fbe0dc}
 .actions form{margin:0}
+        h1,h2{letter-spacing:-.01em;} h1{font-weight:600;} h2{font-weight:600;}
     </style>
+    @include('partials.fonts')
 </head>
 <body>
     <div class            = "shell">
@@ -118,7 +120,7 @@
     <td>{{ $patient->created_at?->format('Y-m-d H:i') }}</td>
     <td>
         <div class = "actions">
-            
+            <button type = "button" class="action-btn edit-btn" onclick='editPatient(@json($patient))'>Edit</button>
             <form method = "POST" action="{{ route('admin.patients.destroy', $patient->id) }}" onsubmit="return confirm('Are you sure you want to delete this patient record?');">
                 @csrf
                 @method('DELETE')
@@ -146,42 +148,71 @@
         <div class = "modal-head">
             <div>
                 <div class = "eyebrow">Health-center record</div>
-                <h2>Add patient</h2>
+                <h2 id="patientModalTitle">Add patient</h2>
             </div>
-            <button class = "close" type="button" onclick="patientModal.close()">&times;</button>
+            <button class = "close" type="button" onclick="closePatientModal()">&times;</button>
         </div>
-        <form class = "modal-body" method="POST" action="{{ route('admin.patients.store') }}">
+        <form id="patientForm" class = "modal-body" method="POST" action="{{ route('admin.patients.store') }}">
             @csrf
-            <input name       = "patient_code" placeholder="Patient code" required>
-            <div style        = "display:grid;grid-template-columns:1fr 130px;gap:8px"><input name="age" type="number" min="0" max="150" placeholder="Age" required><select name="age_unit" aria-label="Age unit" required><option value="years">Years</option><option value="months">Months</option><option value="days">Days</option></select></div>
-            <select name      = "gender" required>
+            <input type="hidden" name="_method" id="patientMethodField" value="">
+            <input id="patient_code" name       = "patient_code" placeholder="Patient code" required>
+            <div style        = "display:grid;grid-template-columns:1fr 130px;gap:8px"><input id="patient_age" name="age" type="number" min="0" max="150" placeholder="Age" required><select id="patient_age_unit" name="age_unit" aria-label="Age unit" required><option value="years">Years</option><option value="months">Months</option><option value="days">Days</option></select></div>
+            <select id="patient_gender" name      = "gender" required>
                 <option value = "">Select gender</option>
                 <option>Male</option>
                 <option>Female</option>
             </select>
-            <select name      = "disease" required>
+            <select id="patient_disease" name      = "disease" required>
                 <option value = "">Select disease</option>
                 @foreach($diseases as $disease)
                     <option>{{ $disease }}</option>
                 @endforeach
             </select>
-            <input name       = "date_onset" type="date" required>
-            <select name      = "address" required>
+            <input id="patient_date_onset" name       = "date_onset" type="date" required>
+            <select id="patient_address" name      = "address" required>
                 <option value = "">Select barangay</option>
                 @foreach($barangays as $barangay)
                     <option>{{ $barangay }}</option>
                 @endforeach
             </select>
             <div class        = "modal-actions">
-                <button class = "button secondary" type="button" onclick="patientModal.close()">Cancel</button>
-                <button class = "button" type="submit">Add patient</button>
+                <button class = "button secondary" type="button" onclick="closePatientModal()">Cancel</button>
+                <button class = "button" id="patientSubmitButton" type="submit">Add patient</button>
             </div>
         </form>
     </dialog>
     <script>
         const patientModal = document.getElementById('patientModal');
+        const patientForm = document.getElementById('patientForm');
+        const patientMethodField = document.getElementById('patientMethodField');
+        const patientModalTitle = document.getElementById('patientModalTitle');
+        const patientSubmitButton = document.getElementById('patientSubmitButton');
+        const patientsStoreUrl = @json(route('admin.patients.store'));
         function openPatientModal() {
+            patientForm.reset();
+            patientForm.action = patientsStoreUrl;
+            patientMethodField.value = '';
+            patientModalTitle.textContent = 'Add patient';
+            patientSubmitButton.textContent = 'Add patient';
             patientModal.showModal();
+        }
+        function editPatient(patient) {
+            patientForm.reset();
+            patientForm.action = '/admin/patients/' + patient.id;
+            patientMethodField.value = 'PATCH';
+            document.getElementById('patient_code').value = patient.patient_code || '';
+            document.getElementById('patient_age').value = patient.age ?? '';
+            document.getElementById('patient_age_unit').value = patient.age_unit || 'years';
+            document.getElementById('patient_gender').value = patient.gender || '';
+            document.getElementById('patient_disease').value = patient.disease || '';
+            document.getElementById('patient_date_onset').value = patient.date_onset ? String(patient.date_onset).substring(0, 10) : '';
+            document.getElementById('patient_address').value = patient.address || '';
+            patientModalTitle.textContent = 'Edit patient';
+            patientSubmitButton.textContent = 'Save changes';
+            patientModal.showModal();
+        }
+        function closePatientModal() {
+            patientModal.close();
         }
     </script>
 @include('partials.submit-guard')

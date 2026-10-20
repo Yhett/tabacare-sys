@@ -16,16 +16,18 @@
               background: #f4f8fa; 
               color: #1d2935; 
               font-family: Arial, sans-serif; 
+              font-size: 18px;
+              line-height: 1.65;
         }
 
         main {
-             width: min(900px, 100%);
+             width: min(980px, 100%);
              margin: 0 auto; 
 
         }
         .back {
-             color: #0f766e;
-             font-size: 14px;
+             color: #0c5f58;
+             font-size: 17px;
              font-weight: 700;
              text-decoration: none;
          }
@@ -55,52 +57,55 @@
              border: 0;
              border-radius: 999px;
              background: transparent;
-             color: #48606a;
+             color: #335058;
              cursor: pointer;
-             font-size: 13px;
+             font-size: 16px;
              font-weight: 700;
-             padding: 7px 14px;
+             padding: 10px 18px;
+             min-height: 48px;
         }
 
         .lang-switch button.active {
-             background: #0f766e;
+             background: #0c5f58;
              color: #fff;
         }
 
         header { 
             margin: 28px 0 22px;
-            padding: 28px;
+            padding: 30px;
             border-radius: 12px;
             color: #fff;
             background: linear-gradient(125deg,#075c5a,#0f766e 65%,#168d85); 
         }
 
         header .eyebrow {
-             color: #bdebe2; 
+             color: #d4efe7; 
             }
         .eyebrow {
-             color: #0f766e;
-             font-size: 11px;
+             color: #0c5f58;
+             font-size: 14px;
              font-weight: 700; 
-             letter-spacing: .14em; 
+             letter-spacing: .12em; 
              text-transform: uppercase; 
             }
 
         h1 { 
             margin: 8px 0;
-            font-size: clamp(30px, 5vw, 42px); 
+            font-size: clamp(32px, 5vw, 46px); 
+            line-height: 1.2;
         }
 
         header p {
             margin: 0;
-            color: #e0f2ef;
-            line-height: 1.6; 
+            color: #eef8f5;
+            font-size: 19px;
+            line-height: 1.65; 
         }
 
         .manual-layout {
             display: grid;
-            grid-template-columns: 210px minmax(0,1fr);
-            gap: 18px;
+            grid-template-columns: 240px minmax(0,1fr);
+            gap: 20px;
             align-items: start;
         }
 
@@ -108,79 +113,88 @@
             position: sticky;
             top: 18px;
             display: grid;
-            gap: 4px;
-            padding: 14px;
+            gap: 6px;
+            padding: 16px;
             border: 1px solid #e1e8eb;
             border-radius: 10px; background: #fff;
         }
 
         nav a {
-             padding: 9px 10px;
+             padding: 12px;
              border-radius: 6px;
-             color: #48606a;
-             font-size: 13px;
+             color: #335058;
+             font-size: 16px;
+             line-height: 1.4;
              text-decoration: none;
         }
 
         nav a:hover {
              background: #e8f6f3;
-             color: #0f766e;
+             color: #0c5f58;
         }
 
         .steps {
             display: grid; 
-            gap: 10px; 
-            margin-top: 12px;
+            gap: 14px; 
+            margin-top: 14px;
         }
         .step {
             display: grid;
-            grid-template-columns: 30px 1fr;
-            gap: 11px;
+            grid-template-columns: 36px 1fr;
+            gap: 12px;
             align-items: start; 
-            color: #586875;
-            line-height: 1.6;
+            color: #334e57;
+            font-size: 18px;
+            line-height: 1.65;
         }
 
         .step-number {
             display: grid;
             place-items: center;
-            width: 28px;
-            height: 28px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            color: #0f766e;
+            color: #0c5f58;
             background: #e5f5f1;
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 700;
         }
 
         .help-card {
-            margin: 12px 0;
-            padding: 20px 22px;
+            margin: 14px 0;
+            padding: 24px 26px;
             border: 1px solid #e1e8eb;
             border-radius: 10px;
             background: #fff;
             box-shadow: 0 10px 28px rgba(27,45,61,.06);
+            font-size: 18px;
+            line-height: 1.65;
         }
 
         h2 {
-            margin: 0 0 8px;
-            font-size: 18px;
+            margin: 0 0 10px;
+            font-size: 24px;
+            line-height: 1.3;
         }
 
         .help-card p {
             margin: 0;
-            color: #586875;
+            color: #334e57;
+            font-size: 18px;
             line-height: 1.65;
         }
 
         .help-card a {
-            color: #0f766e;
+            color: #0c5f58;
             font-weight: 700;
         }
         .note {
-            margin-top: 12px !important;
-            padding: 12px 14px;
-            border-left: 3px solid #d9a441; border-radius: 4px; background: #fffbeb;
+            margin-top: 14px !important;
+            padding: 16px 18px;
+            border-left: 4px solid #d9a441; border-radius: 6px; background: #fffbeb;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #4a3a12;
         }
 
         .topbar {
@@ -203,15 +217,16 @@
              border: 0;
              border-radius: 999px;
              background: transparent;
-             color: #48606a;
+             color: #335058;
              cursor: pointer;
-             font-size: 13px;
+             font-size: 16px;
              font-weight: 700;
-             padding: 7px 14px;
+             padding: 10px 18px;
+             min-height: 48px;
         }
 
         .lang-switch button.active {
-             background: #0f766e;
+             background: #0c5f58;
              color: #fff;
         }
         @media (max-width: 650px) { 

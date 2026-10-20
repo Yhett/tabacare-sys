@@ -49,29 +49,32 @@
 
         .eyebrow{
             color:var(--teal);
-            font:700 11px Arial,sans-serif;
-            letter-spacing:.16em;
+            font:700 14px Arial,sans-serif;
+            letter-spacing:.14em;
             text-transform:uppercase
         }
 
         h1{
             margin:7px 0 6px;
-            font-size:clamp(28px,4vw,40px);
-            font-weight:400
+            font-size:clamp(30px,4vw,42px);
+            font-weight:400;
+            line-height:1.2
         }
 
         .intro{
             margin:0;
-            color:var(--muted);
-            font-size:16px
+            color:#3f565e;
+            font-size:19px;
+            line-height:1.6
         }
 
         .profile{
             display:flex;
             align-items:center;
             gap:10px;
-            color:var(--muted);
-            font:13px Arial,sans-serif
+            color:#3f565e;
+            font:16px Arial,sans-serif;
+            line-height:1.5
         }
 
         .avatar{
@@ -94,15 +97,17 @@
         }
 
         h2{
-            margin:0 0 8px;
-            font-size:21px;
-            font-weight:400
+            margin:0 0 10px;
+            font-size:24px;
+            font-weight:400;
+            line-height:1.3
         }
 
         .hint,
         .meta{
-            color:var(--muted);
-            font:13px Arial,sans-serif
+            color:#3f565e;
+            font:16px Arial,sans-serif;
+            line-height:1.6
         }
 
         .form-grid{
@@ -118,21 +123,23 @@
         }
 
         label{
-            color:var(--muted);
-            font:700 10px Arial,sans-serif;
-            letter-spacing:.1em;
+            color:#334e57;
+            font:700 13px Arial,sans-serif;
+            letter-spacing:.07em;
             text-transform:uppercase
         }
 
         input,
         select{
             width:100%;
-            min-height:42px;
-            padding:9px 11px;
+            min-height:50px;
+            padding:12px 14px;
             border:1px solid var(--line);
-            border-radius:4px;
+            border-radius:6px;
             background:#fff;
-            color:var(--ink)
+            color:var(--ink);
+            font-size:17px;
+            line-height:1.5
         }
 
         .actions{
@@ -142,14 +149,14 @@
         }
 
         .button{
-            min-height:42px;
-            padding:0 16px;
+            min-height:50px;
+            padding:0 20px;
             border:0;
-            border-radius:4px;
+            border-radius:6px;
             background:#0a3b69;
             color:#fff;
             cursor:pointer;
-            font:700 12px Arial,sans-serif;
+            font:700 16px Arial,sans-serif;
             text-decoration:none;
             display:inline-flex;
             align-items:center;
@@ -167,32 +174,34 @@
 
         .alert{
             margin-bottom:16px;
-            padding:12px 15px;
+            padding:14px 16px;
             border:1px solid;
-            border-radius:4px;
-            font:13px Arial,sans-serif
+            border-radius:6px;
+            font:16px Arial,sans-serif;
+            line-height:1.55
         }
 
         .success{
             border-color:#bde5cd;
             background:#effaf3;
-            color:#19683d
+            color:#145f38
         }
 
         .error{
             border-color:#f3c7c0;
             background:#fff4f2;
-            color:#9d3d2f
+            color:#8f3527
         }
 
         .ready{
             margin-top:18px;
-            padding:18px;
+            padding:20px;
             border:1px solid #bbf7d0;
             border-radius:8px;
             background:#f0fdf4;
-            font:13px Arial,sans-serif;
-            color:#166534
+            font:16px Arial,sans-serif;
+            line-height:1.6;
+            color:#14532d
         }
 
         .preview{
@@ -216,22 +225,23 @@
             table-layout:fixed;
             border-collapse:separate;
             border-spacing:0;
-            font:13px Arial,sans-serif
+            font:16px Arial,sans-serif;
+            line-height:1.55
         }
 
         .preview th{
-            padding:12px;
+            padding:14px 12px;
             text-align:left;
             color:#fff;
             background:#0a3b69;
-            font-size:10px;
-            letter-spacing:.1em;
+            font-size:13px;
+            letter-spacing:.06em;
             text-transform:uppercase;
             white-space:nowrap
         }
 
         .preview td{
-            padding:13px 12px;
+            padding:15px 12px;
             border-top:1px solid #edf2ef;
             white-space:nowrap
         }
@@ -298,10 +308,11 @@
         }
 
         .empty{
-            padding:35px;
-            color:var(--muted);
+            padding:40px 28px;
+            color:#3f565e;
             text-align:center;
-            font:13px Arial,sans-serif
+            font:17px Arial,sans-serif;
+            line-height:1.6
         }
 
         @media(max-width:650px){

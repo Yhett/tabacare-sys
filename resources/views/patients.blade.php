@@ -50,29 +50,32 @@
 
         .eyebrow {
             color: var(--teal);
-            font: 700 11px Arial, sans-serif;
-            letter-spacing: .16em;
+            font: 700 14px Arial, sans-serif;
+            letter-spacing: .14em;
             text-transform: uppercase;
         }
 
         h1 {
             margin: 7px 0 6px;
-            font-size: clamp(28px, 4vw, 40px);
+            font-size: clamp(30px, 4vw, 42px);
             font-weight: 400;
+            line-height: 1.2;
         }
 
         .intro {
             margin: 0;
-            color: var(--muted);
-            font-size: 16px;
+            color: #3f565e;
+            font-size: 19px;
+            line-height: 1.6;
         }
 
         .user-chip {
             display: flex;
             align-items: center;
-            gap: 9px;
-            color: var(--muted);
-            font: 13px Arial, sans-serif;
+            gap: 10px;
+            color: #3f565e;
+            font: 16px Arial, sans-serif;
+            line-height: 1.5;
             white-space: nowrap;
         }
 
@@ -105,32 +108,34 @@
         }
 
         label {
-            color: var(--muted);
-            font: 700 10px Arial, sans-serif;
-            letter-spacing: .1em;
+            color: #3f565e;
+            font: 700 13px Arial, sans-serif;
+            letter-spacing: .08em;
             text-transform: uppercase;
         }
 
         input,
         select {
             width: 100%;
-            min-height: 42px;
-            padding: 9px 11px;
+            min-height: 50px;
+            padding: 12px 14px;
             border: 1px solid var(--line);
-            border-radius: 4px;
+            border-radius: 6px;
             background: #fbfdfb;
             color: var(--ink);
+            font-size: 17px !important;
+            line-height: 1.5;
         }
 
         .button {
-            min-height: 42px;
-            padding: 0 16px;
+            min-height: 50px;
+            padding: 0 20px;
             border: 0;
-            border-radius: 4px;
+            border-radius: 6px;
             background: var(--teal);
             color: #fff;
             cursor: pointer;
-            font: 700 12px Arial, sans-serif;
+            font: 700 16px Arial, sans-serif;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -166,16 +171,18 @@
         }
 
         .export-hint {
-            color: var(--muted);
-            font: 12px Arial, sans-serif;
+            color: #3f565e;
+            font: 15px Arial, sans-serif;
+            line-height: 1.5;
         }
 
         .alert {
             margin: 16px 0;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 1px solid;
-            border-radius: 4px;
-            font: 13px Arial, sans-serif;
+            border-radius: 6px;
+            font: 16px Arial, sans-serif;
+            line-height: 1.55;
         }
 
         .alert.success {
@@ -193,12 +200,12 @@
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 18px;
         }
 
         .summary-card {
-            padding: 16px 18px;
+            padding: 20px 22px;
             background: var(--panel);
             border: 1px solid var(--line);
             box-shadow: 0 7px 20px rgba(24,48,59,.04);
@@ -212,31 +219,32 @@
 
         .summary-label {
             display: block;
-            color: var(--muted);
-            font: 700 10px Arial, sans-serif;
-            letter-spacing: .1em;
+            color: #3f565e;
+            font: 700 13px Arial, sans-serif;
+            letter-spacing: .07em;
             text-transform: uppercase;
         }
 
         .primary .summary-label {
-            color: #bce5dc;
+            color: #d4efe7;
         }
 
         .summary-value {
             display: block;
-            margin-top: 9px;
-            font-size: 28px;
+            margin-top: 10px;
+            font-size: 36px;
+            line-height: 1.1;
         }
 
         .summary-note {
             display: block;
-            margin-top: 4px;
-            color: var(--muted);
-            font: 11px Arial, sans-serif;
+            margin-top: 6px;
+            color: #3f565e;
+            font: 15px Arial, sans-serif;
         }
 
         .primary .summary-note {
-            color: #d9f3ec;
+            color: #e6f5f0;
         }
 
         .disease-strip {
@@ -249,17 +257,17 @@
 
         .disease-chip {
             flex: 0 0 auto;
-            padding: 8px 11px;
+            padding: 10px 15px;
             border: 1px solid var(--line);
             border-radius: 999px;
             background: #fff;
-            color: var(--muted);
-            font: 11px Arial, sans-serif;
+            color: #3f565e;
+            font: 14px Arial, sans-serif;
         }
 
         .disease-chip strong {
             color: var(--teal);
-            font-size: 13px;
+            font-size: 15px;
         }
 
         .table-panel {
@@ -281,13 +289,14 @@
 
         h2 {
             margin: 0;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 400;
+            line-height: 1.3;
         }
 
         .count {
-            color: var(--muted);
-            font: 12px Arial, sans-serif;
+            color: #3f565e;
+            font: 15px Arial, sans-serif;
         }
 
         .table-scroll {
@@ -301,28 +310,29 @@
             min-width: 900px;
             table-layout: fixed;
             border-collapse: collapse;
-            font: 13px Arial, sans-serif;
+            font: 17px Arial, sans-serif;
+            line-height: 1.55;
         }
 
         th {
             position: sticky;
             top: 0;
             z-index: 1;
-            padding: 13px 15px;
+            padding: 15px;
             border-bottom: 1px solid var(--line);
             background: #f7faf8;
-            color: var(--muted);
+            color: #334e57;
             text-align: left;
-            font: 700 10px Arial, sans-serif;
-            letter-spacing: .1em;
+            font: 700 13px Arial, sans-serif;
+            letter-spacing: .07em;
             text-transform: uppercase;
             white-space: nowrap;
         }
 
         td {
-            padding: 14px 15px;
+            padding: 16px 15px;
             border-top: 1px solid #edf2ef;
-            color: #334b52;
+            color: #243f46;
             white-space: nowrap;
         }
 
@@ -351,17 +361,18 @@
         .actions {
             display: flex;
             justify-content: flex-end;
-            gap: 7px;
+            gap: 10px;
         }
 
         .action {
-            padding: 7px 10px;
+            padding: 10px 15px;
+            min-height: 44px;
             border: 1px solid var(--line);
-            border-radius: 3px;
+            border-radius: 5px;
             background: #fff;
             color: var(--teal);
             cursor: pointer;
-            font: 700 11px Arial, sans-serif;
+            font: 700 15px Arial, sans-serif;
         }
 
         .action.delete {
@@ -369,9 +380,11 @@
         }
 
         .empty {
-            padding: 55px 20px;
-            color: var(--muted);
+            padding: 60px 24px;
+            color: #3f565e;
             text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
         }
 
         .table-footer {
@@ -379,24 +392,28 @@
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-            padding: 14px 20px;
+            padding: 16px 20px;
             border-top: 1px solid var(--line);
-            color: var(--muted);
-            font: 12px Arial, sans-serif;
+            color: #3f565e;
+            font: 15px Arial, sans-serif;
         }
 
         .pagination {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .pagination a,
         .pagination span {
-            padding: 7px 10px;
+            padding: 10px 14px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
             border: 1px solid var(--line);
-            border-radius: 3px;
+            border-radius: 5px;
             color: var(--teal);
             text-decoration: none;
+            font-size: 15px;
         }
 
         .pagination span {
@@ -405,11 +422,12 @@
         }
 
         dialog {
-            width: min(500px, calc(100% - 30px));
+            width: min(560px, calc(100% - 30px));
             padding: 0;
             border: 0;
-            border-radius: 7px;
+            border-radius: 8px;
             box-shadow: 0 25px 80px rgba(24,48,59,.25);
+            font-size: 17px;
         }
 
         dialog::backdrop {
@@ -419,37 +437,45 @@
         .modal-head {
             display: flex;
             justify-content: space-between;
-            padding: 22px 24px 15px;
+            align-items: center;
+            gap: 12px;
+            padding: 24px 26px 16px;
             border-bottom: 1px solid var(--line);
+            font-size: 22px;
         }
 
         .modal-close {
             border: 0;
             background: transparent;
-            color: var(--muted);
+            color: #3f565e;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 30px;
+            min-width: 48px;
+            min-height: 48px;
         }
 
         .modal-body {
             display: grid;
-            gap: 13px;
-            padding: 22px 24px 24px;
+            gap: 16px;
+            padding: 24px 26px 26px;
+            font-size: 17px;
+            line-height: 1.6;
         }
 
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 5px;
+            gap: 12px;
+            margin-top: 8px;
         }
 
         .assigned {
-            padding: 10px 12px;
-            border-radius: 4px;
+            padding: 14px 16px;
+            border-radius: 6px;
             background: #effaf3;
-            color: #19683d;
-            font: 12px Arial, sans-serif;
+            color: #145f38;
+            font: 16px Arial, sans-serif;
+            line-height: 1.55;
         }
 
         /* Export success notification */
@@ -460,14 +486,14 @@
             z-index: 9999;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 13px 18px;
+            gap: 12px;
+            padding: 16px 20px;
             border: 1px solid #bde5cd;
-            border-radius: 6px;
+            border-radius: 8px;
             background: #effaf3;
-            color: #19683d;
+            color: #145f38;
             box-shadow: 0 8px 25px rgba(24,48,59,.12);
-            font: 600 13px Arial, sans-serif;
+            font: 600 16px Arial, sans-serif;
             animation: slideIn .3s ease;
         }
 

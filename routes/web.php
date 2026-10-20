@@ -53,7 +53,8 @@ Route::get('/admin/reports/{report}/attachment', [AdminController::class, 'downl
 Route::get('/admin/reports/{report}/download', [AdminController::class, 'downloadReport'])->name('admin.reports.download');
 
 
-Route::put('/admin/patients/{patient}',[AdminPatientController::class,'update'])->name('admin.patients.update');
-Route::delete('/admin/patients/{patient}',[AdminPatientController::class,'destroy'])->name('admin.patients.destroy');
+Route::patch('/admin/patients/{patient}', [AdminController::class, 'updatePatient'])->name('admin.patients.update');
+Route::put('/admin/patients/{patient}', [AdminController::class, 'updatePatient']);
+Route::delete('/admin/patients/{patient}', [AdminController::class, 'destroyPatient'])->name('admin.patients.destroy');
 
 Route::delete('/admin/reports/{id}',[AdminController::class, 'destroyReport'])->name('admin.reports.destroy');

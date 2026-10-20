@@ -177,10 +177,33 @@ class AdminController extends Controller
         if (! in_array($filter, self::DISEASES, true)) {
             $filter = '';
         }
+        $trendFilter = (string) $request->query('trend_disease', '');
+        if ($trendFilter !== '' && ! in_array($trendFilter, self::DISEASES, true)) {
+            $trendFilter = '';
+        }
+        $diseaseMonth = trim((string) $request->query('disease_month', ''));
+        if ($diseaseMonth !== '' && (! ctype_digit($diseaseMonth) || (int) $diseaseMonth < 1 || (int) $diseaseMonth > 12)) {
+            $diseaseMonth = '';
+        }
+        $diseaseMonth = $diseaseMonth === '' ? '' : (string) (int) $diseaseMonth;
 
+        $diseaseMonthTotals = Patient::query()
+            ->when($diseaseMonth !== '', fn ($query) => $query->whereMonth('date_onset', (int) $diseaseMonth))
+            ->selectRaw('disease, COUNT(*) as total')
+            ->groupBy('disease')
+            ->pluck('total', 'disease');
+        $diseaseChartCounts = collect(self::DISEASES)->mapWithKeys(fn ($disease) => [
+            $disease => (int) ($diseaseMonthTotals[$disease] ?? 0),
+        ]);
         $diseaseCounts = collect(self::DISEASES)->mapWithKeys(fn ($disease) => [
             $disease => Patient::where('disease', $disease)->count(),
         ]);
+        $diseaseMonths = [
+            1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
+            5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
+            9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December',
+        ];
+        $diseaseMonthLabel = $diseaseMonth === '' ? 'All months' : $diseaseMonths[(int) $diseaseMonth];
         $monthlyCases = Patient::query()
             ->whereBetween('date_onset', [now()->startOfMonth()->toDateString(), now()->endOfMonth()->toDateString()])
             ->selectRaw('disease, COUNT(*) as total')
@@ -202,13 +225,36 @@ class AdminController extends Controller
 
         $trendLabels = [];
         $trendValues = [];
+        $trendDiseaseSeries = [];
+        foreach (self::DISEASES as $disease) {
+            $trendDiseaseSeries[$disease] = [];
+        }
         for ($monthsAgo = 5; $monthsAgo >= 0; $monthsAgo--) {
             $month = now()->subMonths($monthsAgo);
             $trendLabels[] = $month->format('M Y');
+            $monthStart = $month->copy()->startOfMonth()->toDateString();
+            $monthEnd = $month->copy()->endOfMonth()->toDateString();
             $trendValues[] = Patient::query()
-                ->whereBetween('date_onset', [$month->copy()->startOfMonth()->toDateString(), $month->copy()->endOfMonth()->toDateString()])
+                ->whereBetween('date_onset', [$monthStart, $monthEnd])
                 ->count();
+            $monthDiseaseTotals = Patient::query()
+                ->whereBetween('date_onset', [$monthStart, $monthEnd])
+                ->selectRaw('disease, COUNT(*) as total')
+                ->groupBy('disease')
+                ->pluck('total', 'disease');
+            foreach (self::DISEASES as $disease) {
+                $trendDiseaseSeries[$disease][] = (int) ($monthDiseaseTotals[$disease] ?? 0);
+            }
         }
+
+        // Fixed line colors for the six-month trend (disease => hex).
+        $trendDiseaseColors = [
+            'Influenza' => '#0d9488',
+            'Common Cold' => '#f97316',
+            'Measles' => '#eab308',
+            'Chickenpox' => '#3b82f6',
+            'Hand, Foot, and Mouth Disease' => '#8b5cf6',
+        ];
 
         $previousMonth = now()->subMonth()->startOfMonth();
         $previousMonthTotal = Patient::whereBetween('date_onset', [$previousMonth->toDateString(), $previousMonth->copy()->endOfMonth()->toDateString()])->count();
@@ -231,7 +277,12 @@ class AdminController extends Controller
             'barangays' => self::BARANGAYS,
             'diseases' => self::DISEASES,
             'filter' => $filter,
+            'trendFilter' => $trendFilter,
             'diseaseCounts' => $diseaseCounts,
+            'diseaseChartCounts' => $diseaseChartCounts,
+            'diseaseMonth' => $diseaseMonth,
+            'diseaseMonths' => $diseaseMonths,
+            'diseaseMonthLabel' => $diseaseMonthLabel,
             'monthlyCases' => $monthlyCases,
             'monthlyTotal' => $monthlyCases->sum(),
             'outbreakAlerts' => $outbreakAlerts,
@@ -244,6 +295,8 @@ class AdminController extends Controller
             'barangayCounts' => $barangayCounts,
             'trendLabels' => $trendLabels,
             'trendValues' => $trendValues,
+            'trendDiseaseSeries' => $trendDiseaseSeries,
+            'trendDiseaseColors' => $trendDiseaseColors,
             'monthChange' => $monthChange,
             'previousMonthTotal' => $previousMonthTotal,
             'topBarangays' => $topBarangays,
@@ -432,6 +485,32 @@ class AdminController extends Controller
         Patient::create($data);
 
         return to_route('admin.patients')->with('success', 'Patient added to the health-center list.');
+    }
+
+    public function updatePatient(Request $request, Patient $patient): RedirectResponse
+    {
+        $this->ensureAdmin($request);
+        $data = $request->validate([
+            'patient_code' => ['required', 'string', 'max:255', Rule::unique('patients', 'patient_code')->ignore($patient->id)],
+            'disease' => ['required', Rule::in(self::DISEASES)],
+            'date_onset' => ['required', 'date'],
+            'address' => ['required', Rule::in(self::BARANGAYS)],
+            'age' => ['required', 'integer', 'between:0,150'],
+            'age_unit' => ['required', Rule::in(['days', 'months', 'years'])],
+            'gender' => ['required', Rule::in(['Male', 'Female'])],
+        ]);
+        $patient->update($data);
+
+        return to_route('admin.patients')->with('success', "Patient {$patient->patient_code} was updated.");
+    }
+
+    public function destroyPatient(Request $request, Patient $patient): RedirectResponse
+    {
+        $this->ensureAdmin($request);
+        $code = $patient->patient_code;
+        $patient->delete();
+
+        return to_route('admin.patients')->with('success', "Patient {$code} was deleted.");
     }
 
     private function ensureAdmin(Request $request): void

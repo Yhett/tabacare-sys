@@ -88,16 +88,17 @@
 
     .worker-brand-name {
         color: var(--worker-teal);
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 800;
-        letter-spacing: .8px;
+        letter-spacing: .6px;
+        line-height: 1.2;
     }
 
     .worker-brand-subtitle {
-        margin-top: 2px;
-        color: var(--worker-muted);
-        font: 600 10px Arial, sans-serif;
-        letter-spacing: .6px;
+        margin-top: 3px;
+        color: #4f6a6a;
+        font: 700 12px Arial, sans-serif;
+        letter-spacing: .5px;
         text-transform: uppercase;
     }
 
@@ -130,28 +131,29 @@
 
     .worker-sidebar-label {
         padding: 0 12px 10px;
-        color: #8ba09f;
-        font: 700 10px Arial, sans-serif;
-        letter-spacing: 1.3px;
+        color: #4f6a6a;
+        font: 700 12px Arial, sans-serif;
+        letter-spacing: 1.1px;
     }
 
     .worker-sidebar-nav {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 6px;
     }
 
     .worker-nav-link {
         position: relative;
-        min-height: 48px;
+        min-height: 54px;
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 0 12px;
+        padding: 6px 12px;
         border-radius: 11px;
-        color: var(--worker-muted);
+        color: #2b4c4c;
         text-decoration: none;
-        font: 600 14px Arial, sans-serif;
+        font: 600 17px Arial, sans-serif;
+        line-height: 1.4;
         transition: background .2s ease, color .2s ease, transform .2s ease;
     }
 
@@ -237,34 +239,35 @@
     }
 
     .worker-assignment-kicker {
-        margin-bottom: 3px;
-        color: #7b9290;
-        font: 700 9px Arial, sans-serif;
-        letter-spacing: 1px;
+        margin-bottom: 4px;
+        color: #4f6a6a;
+        font: 700 12px Arial, sans-serif;
+        letter-spacing: .8px;
     }
 
     .worker-assignment-name {
         max-width: 170px;
         overflow: hidden;
-        color: #214746;
-        font: 700 14px Arial, sans-serif;
+        color: #1c3d3c;
+        font: 700 18px Arial, sans-serif;
+        line-height: 1.35;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
     .worker-assignment-caption {
         display: flex;
-        gap: 7px;
-        margin-top: 11px;
-        padding-top: 10px;
+        gap: 8px;
+        margin-top: 12px;
+        padding-top: 12px;
         border-top: 1px solid #dfefed;
-        color: #819694;
-        font: 10px/1.5 Arial, sans-serif;
+        color: #3f565e;
+        font: 14px/1.55 Arial, sans-serif;
     }
 
     .worker-assignment-caption svg {
-        width: 13px;
-        height: 13px;
+        width: 18px;
+        height: 18px;
         flex-shrink: 0;
         color: var(--worker-teal);
     }
@@ -303,14 +306,15 @@
     }
 
     .worker-account-title {
-        color: #31504f;
-        font-size: 11px;
+        color: #243f3e;
+        font-size: 15px;
         font-weight: 700;
+        line-height: 1.4;
     }
 
     .worker-account-subtitle {
-        color: #8a9c9b;
-        font-size: 9px;
+        color: #4f6a6a;
+        font-size: 13px;
     }
 
     /* =========================================================
@@ -327,15 +331,15 @@
         align-items: center;
         gap: 12px;
         width: 100%;
-        height: 44px;
-        padding: 0 12px;
+        min-height: 52px;
+        padding: 6px 12px;
         border: 0;
         border-radius: 10px;
         background: transparent;
-        color: #819392;
+        color: #3f565e;
         cursor: pointer;
         text-align: left;
-        font: 600 13px Arial, sans-serif;
+        font: 600 16px Arial, sans-serif;
     }
 
     .worker-logout:hover {

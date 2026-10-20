@@ -71,8 +71,35 @@
         .disease-name { font-size: 14px; } .disease-count { color: var(--muted); font: 12px Arial, sans-serif; }
         .table-panel { margin-top: 18px; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th { padding: 0 10px 12px; color: var(--muted); text-align: left; font: 10px Arial, sans-serif; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-        td { padding: 14px 10px; border-top: 1px solid #edf2ef; } td:last-child, th:last-child { text-align: right; }
+        th { padding: 0 10px 12px; color: #41565e; text-align: left; font: 700 13px Arial, sans-serif; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        td { padding: 16px 12px; border-top: 1px solid #edf2ef; line-height: 1.55; }
+        /* Senior-friendly readability — health worker / barangay panel */
+        body { font-size: 18px; line-height: 1.6; }
+        .main { font-size: 17px; }
+        .eyebrow { font-size: 14px !important; }
+        .intro { font-size: 19px !important; line-height: 1.65; color: #3f565e; }
+        .profile { font-size: 16px !important; line-height: 1.5; }
+        .profile small { font-size: 15px !important; }
+        .filter label { font-size: 13px !important; }
+        select { font-size: 17px !important; min-height: 48px; }
+        .reset { font-size: 16px !important; padding: 12px 16px; }
+        .stat { padding: 24px; }
+        .stat-label { font-size: 14px !important; letter-spacing: .07em; }
+        .primary .stat-label { color: #d4efe7 !important; }
+        .stat-value { font-size: 42px !important; }
+        .stat-note { font-size: 16px !important; color: #47606a; }
+        .primary .stat-note { color: #e6f5f0 !important; }
+        h2 { font-size: 24px !important; }
+        .panel-heading span { font-size: 16px !important; color: #47606a; }
+        .bar-value { font-size: 15px !important; font-weight: 700; color: #2f4a52; }
+        .bar-name { min-height: 36px; font-size: 14px !important; line-height: 1.4; color: #3f565e; }
+        .disease-list { gap: 16px; }
+        .disease-row { padding-bottom: 14px; }
+        .disease-name { font-size: 18px !important; }
+        .disease-count { font-size: 16px !important; color: #3f565e; }
+        table { font-size: 17px !important; }
+        .mobile-pc-notice { font-size: 16px !important; }
+        .mobile-pc-notice strong { font-size: 17px !important; }
         .status { display: inline-block; padding: 5px 8px; border-radius: 3px; background: #e4f3eb; color: #197050; font: 10px Arial, sans-serif; font-weight: 700; text-transform: uppercase; }
         .mobile-pc-notice {
     display: none;
